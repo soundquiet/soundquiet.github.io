@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://soundquiet.github.io/2018/08/17/hello-world/</loc>
+    
+    <lastmod>2019-09-30T03:49:11.136Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://soundquiet.github.io/2019/09/30/test-in-mac/</loc>
     
     <lastmod>2019-09-30T03:46:09.333Z</lastmod>
@@ -124,13 +131,6 @@
     <loc>https://soundquiet.github.io/pageName/index.html</loc>
     
     <lastmod>2018-05-03T15:18:48.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://soundquiet.github.io/2019/09/30/hello-world/</loc>
-    
-    <lastmod>2018-05-03T14:54:56.000Z</lastmod>
     
   </url>
   
