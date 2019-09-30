@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="data visualization,d3.js,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Soundquiet" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="这一节(Lesson 8)实现动画效果。">
+<meta name="keywords" content="data visualization,d3.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Visualization and D3.js 笔记(6)">
+<meta property="og:url" content="https://soundquiet.github.io/2018/11/02/Data-Visualization-and-D3-js-笔记-6/index.html">
+<meta property="og:site_name" content="Soundquiet">
+<meta property="og:description" content="这一节(Lesson 8)实现动画效果。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson8/mercator.jpg">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson8/worldcup1.png">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson8/worldcup2.png">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson8/worldcup3.gif">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson8/worldcup4.gif">
+<meta property="og:updated_time" content="2018-11-02T13:13:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Data Visualization and D3.js 笔记(6)">
+<meta name="twitter:description" content="这一节(Lesson 8)实现动画效果。">
+<meta name="twitter:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson8/mercator.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://soundquiet.github.io/2018/11/02/Data-Visualization-and-D3-js-笔记-6/">
+
+
+
+
+
+  <title>Data Visualization and D3.js 笔记(6) | Soundquiet</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d9df1d344a31f6d468cc97c7697df391";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Soundquiet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life with studying, coding and ciuji</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://soundquiet.github.io/2018/11/02/Data-Visualization-and-D3-js-笔记-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun Fuling">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/sfl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Soundquiet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Data Visualization and D3.js 笔记(6)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-02T21:09:43+08:00">
+                2018-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Visualization-and-D3-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Visualization and D3.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/02/Data-Visualization-and-D3-js-笔记-6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/11/02/Data-Visualization-and-D3-js-笔记-6/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一节(Lesson 8)实现动画效果。<br><a id="more"></a></p>
+<h1 id="Lesson-8-动画与互动"><a href="#Lesson-8-动画与互动" class="headerlink" title="Lesson 8 动画与互动"></a>Lesson 8 动画与互动</h1><h2 id="地图"><a href="#地图" class="headerlink" title="地图"></a>地图</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li>shapefile 二进制</li>
+<li>GeoJSON 可读性，数据多，臃肿</li>
+<li>TopoJSON 拓扑结构</li>
+</ul>
+<h3 id="投影"><a href="#投影" class="headerlink" title="投影"></a>投影</h3><p><strong>墨卡托投影</strong>是一种“等角横轴割圆柱投影”，椭圆柱割地球于南纬80度、北纬84度两条等高圈，投影后两条相割的经线上没有变形，而中央经线上长度比0.9996。<br>墨卡托投影的过程其实非常简单，就是将地球展开成一个圆柱，再将圆柱展开成平面。<br><img src="/images/blogs/dv&amp;d3/lesson8/mercator.jpg" alt></p>
+<h3 id="主题地图"><a href="#主题地图" class="headerlink" title="主题地图"></a>主题地图</h3><ul>
+<li>dot 点，颜色，负空间，eg瘟疫地图</li>
+<li>choropleth 等值线图，根据地区数据进行补色</li>
+<li>cartogram 变形地图，根据数据值改变区域、形状和尺寸</li>
+<li>graduated symbol 符号渐变地图</li>
+</ul>
+<h2 id="利用d3绘制地图"><a href="#利用d3绘制地图" class="headerlink" title="利用d3绘制地图"></a>利用d3绘制地图</h2><h3 id="static-map"><a href="#static-map" class="headerlink" title="static map"></a>static map</h3><p>GeoJSON有很多常见地理区域的数据文件，可以直接使用。<br>d3内置函数<code>json()</code>可以载入JSON文件<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d3.json(<span class="string">'world_countries.json'</span>, draw);</span><br></pre></td></tr></table></figure></p>
+<h4 id="从SVG路径绘制地图"><a href="#从SVG路径绘制地图" class="headerlink" title="从SVG路径绘制地图"></a>从SVG路径绘制地图</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">geo_data</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">var</span> projection = d3.geo.mercator();<span class="comment">//墨卡托投影法</span></span><br><span class="line">    <span class="comment">// 类似于用scale将整数或浮点数转换成像素点的映射</span></span><br><span class="line">    <span class="comment">// 把经度和维度转换为像素域</span></span><br><span class="line">    <span class="keyword">var</span> path = d3.geo.path.projection(projection);</span><br><span class="line">    <span class="comment">// 构建SVG对象来正确呈现这些像素</span></span><br><span class="line">    <span class="keyword">var</span> map = d3.selectAll(<span class="string">'path'</span>) <span class="comment">//空选择</span></span><br><span class="line">                .data(geo_data.features) <span class="comment">// 检查geo_data，了解其数据结构，.features与国家坐标的数组相对应</span></span><br><span class="line">                .enter()</span><br><span class="line">                .append(<span class="string">'path'</span>)</span><br><span class="line">                .attr(<span class="string">'d'</span>, path) <span class="comment">// 将d属性设置为上面创建的路径对象；将顶点或值填在d属性中，认为是路径是数据，指定SVG路径用于绘图</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="绘制并更改地图"><a href="#绘制并更改地图" class="headerlink" title="绘制并更改地图"></a>绘制并更改地图</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> projection = d3.geo.mercator()</span><br><span class="line">                        .sacle(<span class="number">170</span>) <span class="comment">// 取得或设置投影的缩放系数</span></span><br><span class="line">                        .translate([width / <span class="number">2</span>, height / <span class="number">2</span>]); <span class="comment">//取得或设置投影的平移位置</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> map = d3.selectAll(<span class="string">'path'</span>)</span><br><span class="line">                .data(geo_data.features)</span><br><span class="line">                .enter()</span><br><span class="line">                .append(<span class="string">'path'</span>)</span><br><span class="line">                .attr(<span class="string">'d'</span>, path)</span><br><span class="line">                .style(<span class="string">'fill'</span>, <span class="string">'lightBlue'</span>)</span><br><span class="line">                .style(<span class="string">'stroke'</span>, <span class="string">'black'</span>)</span><br><span class="line">                .style(<span class="string">'stroke-width'</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/blogs/dv&amp;d3/lesson8/worldcup1.png" alt></p>
+<h3 id="bubble-map"><a href="#bubble-map" class="headerlink" title="bubble map"></a>bubble map</h3><p>为地图添加表示主办国的circle.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">geo_data</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">plot_points</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">var</span> format = d3.time.format(<span class="string">'%d-%m-%T (%H:%M h)'</span>)</span><br><span class="line">    d3.tsv(<span class="string">'world_cup_geo.tsv'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">        d.attentance = +d.attentance;</span><br><span class="line">        d.date = format.parse(d.date); </span><br><span class="line">        <span class="keyword">return</span> d;</span><br><span class="line">    &#125;, plot_points);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="d3的嵌套Nest"><a href="#d3的嵌套Nest" class="headerlink" title="d3的嵌套Nest"></a>d3的嵌套Nest</h4><blockquote>
+<p>嵌套允许数组中的元素被组织为分层树型结构；类似SQL语句里面的GROUP BY方法，但不能多级别分组，而且输出的结果是树而不是一般的表。树的层级由key方法指定。树的叶节点可以按值来排序，而内部节点可以按键来排序。可选参数汇总（rollup）函数可以使用加法函数瓦解每个叶节点的元素. nest 操作符(d3.nest返回的对象)是可以重复使用的，不保留任何嵌套数据的引用。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> yields = [&#123;<span class="attr">yield</span>: <span class="number">27.00</span>, <span class="attr">variety</span>: <span class="string">"Manchuria"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"University Farm"</span>&#125;,</span><br><span class="line">              &#123;<span class="attr">yield</span>: <span class="number">48.87</span>, <span class="attr">variety</span>: <span class="string">"Manchuria"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"Waseca"</span>&#125;,</span><br><span class="line">              &#123;<span class="attr">yield</span>: <span class="number">27.43</span>, <span class="attr">variety</span>: <span class="string">"Manchuria"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"Morris"</span>&#125;, </span><br><span class="line">              ...]</span><br><span class="line"><span class="keyword">var</span> nest = d3.nest()</span><br><span class="line">            .key(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d.years; &#125;)</span><br><span class="line">            .key(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123; <span class="keyword">return</span> d.variety; &#125;)</span><br><span class="line">            .entries(yields);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>返回的嵌套数组中。每个元素的外部数组是键-值对，列出每个不同键的值:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[&#123;<span class="attr">key</span>: <span class="number">1931</span>, <span class="attr">values</span>: [</span><br><span class="line">    &#123;<span class="attr">key</span>: <span class="string">"Manchuria"</span>, <span class="attr">values</span>: [</span><br><span class="line">        &#123;<span class="attr">yield</span>: <span class="number">27.00</span>, <span class="attr">variety</span>: <span class="string">"Manchuria"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"University Farm"</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">yield</span>: <span class="number">48.87</span>, <span class="attr">variety</span>: <span class="string">"Manchuria"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"Waseca"</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">yield</span>: <span class="number">27.43</span>, <span class="attr">variety</span>: <span class="string">"Manchuria"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"Morris"</span>&#125;, ...]&#125;,</span><br><span class="line">    &#123;<span class="attr">key</span>: <span class="string">"Glabron"</span>, <span class="attr">values</span>: [</span><br><span class="line">        &#123;<span class="attr">yield</span>: <span class="number">43.07</span>, <span class="attr">variety</span>: <span class="string">"Glabron"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"University Farm"</span>&#125;,</span><br><span class="line">        &#123;<span class="attr">yield</span>: <span class="number">55.20</span>, <span class="attr">variety</span>: <span class="string">"Glabron"</span>, <span class="attr">year</span>: <span class="number">1931</span>, <span class="attr">site</span>: <span class="string">"Waseca"</span>&#125;, ...]&#125;, ...]&#125;,</span><br><span class="line"> &#123;<span class="attr">key</span>: <span class="number">1932</span>, <span class="attr">values</span>: ...&#125;]</span><br></pre></td></tr></table></figure></p>
+<p><code>d3.nest()</code>创建一个新的操作符，keys集合初始为空。如果map或entries操作符在任何键函数<code>key</code>被注册之前被调用，这个嵌套操作符通常返回输入数组。</p>
+<p><code>nest.key(function)</code>注册一个新的键函数function，键函数将被输入数组中的每个函数调用，并且必须返回一个用于分配元素到它的组内的字符串标识符。通常，这个函数被实现为一个简单的访问器，如上面例子中year和variety的访问器。 输入的数组的引导（index）并没有传递给function。每当一个key 被注册，它被放到一个内部键数组的末端，和由此产生的map或实体将有一个额外的层级。当前没有一个方法可以删除或查询注册的键。最近注册的键在后续的方法中被当作当前键。</p>
+<p><code>nest.rollup(function)</code>为每组中的叶子元素指定汇总函数（rollup）function。<strong>汇总函数的返回值会覆盖叶子值数组</strong>。不论是由map操作符返回的关联数组，还是实体操作符返回的每个实体的值属性。</p>
+<p><code>nest.map(array[, mapType])</code>对指定的数组使用nest操作符，返回一个关联数组。返回的关联数组array中每个实体对应由第一个key函数返回的不同的key值。实体值决定于注册的key函数的数量：如果有一个额外的key，值就是另外一个嵌套的关联数组；否则，值就是过滤自含有指定key值得输入数组array的元素数组。</p>
+<p><code>nest.entries(array)</code>为指定的array参数应用nest操作符，返回一个键值对数组。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plot_points</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> nested = d3.nest()</span><br><span class="line">                    .key(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> d.date.getUTCFullYear();</span><br><span class="line">                    &#125;)</span><br><span class="line">                    .rollup(<span class="function"><span class="keyword">function</span>(<span class="params">leaves</span>) </span>&#123;</span><br><span class="line">                        <span class="keyword">var</span> total = d3.sum(leaves, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                            <span class="keyword">return</span> d.attendance;</span><br><span class="line">                        &#125;);</span><br><span class="line">                        <span class="keyword">var</span> coords = leaves.map(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                            <span class="keyword">return</span> projection([+d.long, +d.lat]);</span><br><span class="line">                        &#125;);</span><br><span class="line">                        <span class="keyword">var</span> center_X = d3.mean(coords, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                            <span class="keyword">return</span> d[<span class="number">0</span>];</span><br><span class="line">                        &#125;);</span><br><span class="line">                        <span class="keyword">var</span> center_Y = d3.mean(coords, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                            <span class="keyword">return</span> d[<span class="number">1</span>];</span><br><span class="line">                        &#125;);</span><br><span class="line">                        <span class="keyword">return</span> &#123;</span><br><span class="line">                            <span class="string">'attendance'</span>: total,</span><br><span class="line">                            <span class="string">'x'</span>: center_X,</span><br><span class="line">                            <span class="string">'y'</span>: center_Y</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                    .entries(data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>nested</code>返回的是包含20个元素的数组，这20个元素对应世界杯的举办次数。每个元素的key值为年份，values值是attendance和x与y坐标。</p>
+<h4 id="添加圆圈"><a href="#添加圆圈" class="headerlink" title="添加圆圈"></a>添加圆圈</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">svg.append(<span class="string">'g'</span>)</span><br><span class="line">    .attr(<span class="string">'class'</span>, <span class="string">'bubble'</span>)</span><br><span class="line">    .selectAll(<span class="string">'circle'</span>)</span><br><span class="line">    .data(nested)</span><br><span class="line">    .enter()</span><br><span class="line">    .append(<span class="string">'circle'</span>)</span><br><span class="line">    .attr(<span class="string">'cx'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> d.values.x;</span><br><span class="line">    &#125;)</span><br><span class="line">    .attr(<span class="string">'cy'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> d.values.y;</span><br><span class="line">    &#125;)</span><br><span class="line">    .attr(<span class="string">'r'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> radius(d.values[<span class="string">'attendance'</span>]);</span><br><span class="line">    &#125;)</span><br><span class="line">    .style(<span class="string">'stroke'</span>, <span class="string">'black'</span>)</span><br><span class="line">    .style(<span class="string">'stroke-width'</span>, <span class="number">0.7</span>)</span><br><span class="line">    .style(<span class="string">'fill'</span>, <span class="string">'rgb(247,148,32)'</span>)</span><br><span class="line">    .style(<span class="string">'opacity'</span>, <span class="number">0.7</span>);</span><br></pre></td></tr></table></figure>
+<p>使用圆圈表达数据时，需要注意，圆圈表示的数据是<strong>半径的平方</strong>。<br>要避免这个问题，数据值应匹配圆圈的面积。可以将数据值开平方，以确定每个圆圈的半径。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> attendance_max = d3.max(nested, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> d.values.attendance;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">var</span> radius = d3.scale.sqrt()</span><br><span class="line">                .domain([<span class="number">0</span>, attendance_max])</span><br><span class="line">                .range([<span class="number">0</span>, <span class="number">15</span>]);</span><br></pre></td></tr></table></figure></p>
+<h4 id="就绘图顺序对数据进行排序"><a href="#就绘图顺序对数据进行排序" class="headerlink" title="就绘图顺序对数据进行排序"></a>就绘图顺序对数据进行排序</h4><p>不干预数据的绘制顺序，可能会出现大圆遮挡小圆的情况。通过数据分类，我们能避免这种情况。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">svg.append(<span class="string">'g'</span>)</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    .data(nested.sort(<span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.values.attendance &gt; a.values.attendance;</span><br><span class="line">    &#125;))</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/blogs/dv&amp;d3/lesson8/worldcup2.png" alt></p>
+<h3 id="author-driven-narrative-animation"><a href="#author-driven-narrative-animation" class="headerlink" title="author driven narrative (animation)"></a>author driven narrative (animation)</h3><p>当前的设计为了保留空间信息而丢失了时间信息。</p>
+<p>动画可以传达变化的时间数据。</p>
+<h4 id="更新函数"><a href="#更新函数" class="headerlink" title="更新函数"></a>更新函数</h4><p><code>update</code>函数应该做到：</p>
+<ol>
+<li>filter data <code>filter</code></li>
+<li>remove any elements which no longer belong there <code>.exit()</code></li>
+<li>add any new elements <code>.enter()</code><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">key_func</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> d.key;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">update</span>(<span class="params">year</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 过滤得到指定年份的数据</span></span><br><span class="line">    <span class="keyword">var</span> filter = nested.filter(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span>  <span class="keyword">new</span> <span class="built_in">Date</span>(d.key).getUTCFullYear() === year;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 更新标题数据</span></span><br><span class="line">    d3.select(<span class="string">'h2'</span>)</span><br><span class="line">        .text(<span class="string">'World Cup '</span> + year);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 选择页面上所有的circle</span></span><br><span class="line">    <span class="keyword">var</span> circles = svg.selectAll(<span class="string">'circle'</span>)</span><br><span class="line">                    .data(filter, key_func); <span class="comment">//做了update，执行完只有一个圆圈被选中</span></span><br><span class="line">    </span><br><span class="line">    circles.exit() <span class="comment">// 包含20个元素的数组（包括一个parentNode）；exit就是本页面未包含的内容</span></span><br><span class="line">            .remove(); <span class="comment">// 移除由exit查找出的不属于页面的元素进行移除</span></span><br><span class="line"></span><br><span class="line">    circles.enter() <span class="comment">// 对应包含1个元素的数组，含有'update'属性</span></span><br><span class="line">            .append(<span class="string">'circle'</span>)</span><br><span class="line">            .transition()</span><br><span class="line">            .duration(<span class="number">500</span>)</span><br><span class="line">            .attr(<span class="string">'cx'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> d.values.x;</span><br><span class="line">            &#125;)</span><br><span class="line">            .attr(<span class="string">'cy'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> d.values.y;</span><br><span class="line">            &#125;)</span><br><span class="line">            .attr(<span class="string">'r'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> radius(d.values[<span class="string">'attendance'</span>]);</span><br><span class="line">            &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 突出当前年参加的国家</span></span><br><span class="line">    <span class="keyword">var</span> countries = filter[<span class="number">0</span>].values[<span class="string">'teams'</span>];</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">update_countries</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(countries.indexOf(d.properties.name) !== <span class="number">-1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'lightBlue'</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'white'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    svg.selectAll(<span class="string">'path'</span>)</span><br><span class="line">        .transition()  <span class="comment">// 使用过渡来平滑化动画</span></span><br><span class="line">        .duration(<span class="number">500</span>)</span><br><span class="line">        .style(<span class="string">'fill'</span>, update_countries);</span><br><span class="line">        <span class="comment">//.style('stroke', update_countries)</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="data-enter和exit"><a href="#data-enter和exit" class="headerlink" title="data, enter和exit"></a>data, enter和exit</h4><p><code>selection.data([values[, key]])</code><br>连接指定的一组数据的和当前选择。指定的values是一组数据值（例如，数字或对象）或一个函数返回一组值。如果没有指定key函数，则values的第一数据被分配到当前选择中第一元素，第二数据分配给当前选择的第二个元素，依此类推。当数据被分配给一个元素，它被存储在属性<code>__data__</code>中，从而使数据“沾粘”，从而使数据可以再选择。<br><code>data</code>操作的结果是<code>update</code>选择;这表示选择的DOM元素已成功绑定到指定的数据元素。<code>update</code>选择还包含对<code>enter</code>和<code>exit</code>的选择，对应于添加和删除数据节点。<br><code>key</code>函数可以被指定为控制数据是如何连接元素。<code>key</code>函数，基于先前结合的数据返回一个用于连接数据和相关的元素的字符串。例如，如果每个数据都有一个唯一的字段<code>name</code>，该连接可以被指定为<code>.data(data, function(d) { return d.name; })</code></p>
+<p><code>selection.enter()</code><br>返回输入（enter）选择：<strong>当前选择中存在但是当前DOM元素中还不存在的每个数据元素的占位符节点</strong>。此方法只在由<code>data</code>运算符返回的更新选择中定义。此外，输入选择只定义了<code>append</code>，<code>insert</code>，<code>select</code>和<code>call</code>操作符；必须使用这些操作符在修改任何内容之前实例化输入元素。</p>
+<p><code>selection.exit()</code><br>返回退出（exit）选择：<strong>找出在当前选择存在的DOM元素中没有新的数据元素</strong>。此方法只被定义在<code>data</code>运算符返回的更新选择。<code>exit</code>选择定义了所有的正常操作符，但通常你主要使用的是<code>remove</code>；其他操作符存在的主要目的是让您可以根据需要定义一个退出的过渡。</p>
+<h4 id="添加动画"><a href="#添加动画" class="headerlink" title="添加动画"></a>添加动画</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> years = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">1930</span>; i &lt; <span class="number">2015</span>; i += <span class="number">4</span>) &#123;</span><br><span class="line"><span class="keyword">if</span>(i !== <span class="number">1942</span> &amp;&amp; i != <span class="number">1946</span>) <span class="comment">// 这两年因为二战没有举办世界杯</span></span><br><span class="line"> 	years.push(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> year_idx = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> year_interval = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    update(years[year_idx]);</span><br><span class="line"></span><br><span class="line">    year_idx ++;</span><br><span class="line">    <span class="keyword">if</span>(year_idx &gt;= years.length)&#123; <span class="comment">// 停止条件</span></span><br><span class="line">        clearInterval(year_interval);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="/images/blogs/dv&amp;d3/lesson8/worldcup3.gif" alt></p>
+<h3 id="reader-driven-narrative-interactive"><a href="#reader-driven-narrative-interactive" class="headerlink" title="reader driven narrative (interactive)"></a>reader driven narrative (interactive)</h3><p>在动画结束之后，提供按钮以供读者自行点选年份进行比较。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> year_interval = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    update(years[year_idx]);</span><br><span class="line"></span><br><span class="line">    year_idx ++;</span><br><span class="line">    <span class="keyword">if</span>(year_idx &gt;= years.length)&#123;</span><br><span class="line">        clearInterval(year_interval);</span><br><span class="line">        <span class="keyword">var</span> buttons = d3.select(<span class="string">'body'</span>)</span><br><span class="line">            .append(<span class="string">'div'</span>)</span><br><span class="line">            .attr(<span class="string">'class'</span>, <span class="string">'years_buttons'</span>)</span><br><span class="line">            .selectAll(<span class="string">'div'</span>)</span><br><span class="line">            .data(years)</span><br><span class="line">            .enter()</span><br><span class="line">            .append(<span class="string">'div'</span>)</span><br><span class="line">            .text(<span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> d;</span><br><span class="line">            &#125;);</span><br><span class="line">        buttons.on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">d</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 先将目前的特殊样式进行清理</span></span><br><span class="line">            d3.select(<span class="string">'.years_buttons'</span>)</span><br><span class="line">                .selectAll(<span class="string">'div'</span>)</span><br><span class="line">                .transition()</span><br><span class="line">                .duration(<span class="number">500</span>)</span><br><span class="line">                .style(<span class="string">'background'</span>, <span class="string">'rgb(251, 201, 127)'</span>)</span><br><span class="line">                .style(<span class="string">'color'</span>, <span class="string">'black'</span>);</span><br><span class="line"></span><br><span class="line">            d3.select(<span class="keyword">this</span>)</span><br><span class="line">                .transition()</span><br><span class="line">                .duration(<span class="number">500</span>)</span><br><span class="line">                .style(<span class="string">'background'</span>, <span class="string">'lightBlue'</span>)</span><br><span class="line">                .style(<span class="string">'color'</span>, <span class="string">'white'</span>);</span><br><span class="line">            update(d);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/blogs/dv&amp;d3/lesson8/worldcup4.gif" alt></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/data-visualization/" rel="tag"># data visualization</a>
+          
+            <a href="/tags/d3-js/" rel="tag"># d3.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/02/Fluent-Python-读书笔记-4/" rel="next" title="Fluent Python 读书笔记(4)">
+                <i class="fa fa-chevron-left"></i> Fluent Python 读书笔记(4)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/30/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sfl.jpg" alt="Sun Fuling">
+            
+              <p class="site-author-name" itemprop="name">Sun Fuling</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ciuji.me/" title="ciuji" target="_blank">ciuji</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lianqing11.github.io/" title="LianQing" target="_blank">LianQing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lesson-8-动画与互动"><span class="nav-number">1.</span> <span class="nav-text">Lesson 8 动画与互动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#地图"><span class="nav-number">1.1.</span> <span class="nav-text">地图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投影"><span class="nav-number">1.1.2.</span> <span class="nav-text">投影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主题地图"><span class="nav-number">1.1.3.</span> <span class="nav-text">主题地图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用d3绘制地图"><span class="nav-number">1.2.</span> <span class="nav-text">利用d3绘制地图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#static-map"><span class="nav-number">1.2.1.</span> <span class="nav-text">static map</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从SVG路径绘制地图"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">从SVG路径绘制地图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制并更改地图"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">绘制并更改地图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bubble-map"><span class="nav-number">1.2.2.</span> <span class="nav-text">bubble map</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#d3的嵌套Nest"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">d3的嵌套Nest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加圆圈"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">添加圆圈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#就绘图顺序对数据进行排序"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">就绘图顺序对数据进行排序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#author-driven-narrative-animation"><span class="nav-number">1.2.3.</span> <span class="nav-text">author driven narrative (animation)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更新函数"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">更新函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data-enter和exit"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">data, enter和exit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加动画"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">添加动画</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reader-driven-narrative-interactive"><span class="nav-number">1.2.4.</span> <span class="nav-text">reader driven narrative (interactive)</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun Fuling</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: 'Data Visualization and D3.js 笔记(6)', 
+            owner: 'soundquiet',
+            repo: 'soundquiet.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '262a84fa3d903d2933b70fe9fa90a5db8ed57333',
+            
+                client_id: 'b604845ecbd0c13cb82d'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

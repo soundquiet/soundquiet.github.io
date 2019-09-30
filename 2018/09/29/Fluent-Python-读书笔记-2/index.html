@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,读书笔记,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Soundquiet" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="包括文本(第4章)和一等函数(第5章)">
+<meta name="keywords" content="Python,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fluent Python 读书笔记(2)">
+<meta property="og:url" content="https://soundquiet.github.io/2018/09/29/Fluent-Python-读书笔记-2/index.html">
+<meta property="og:site_name" content="Soundquiet">
+<meta property="og:description" content="包括文本(第4章)和一等函数(第5章)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-09-29T08:50:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fluent Python 读书笔记(2)">
+<meta name="twitter:description" content="包括文本(第4章)和一等函数(第5章)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://soundquiet.github.io/2018/09/29/Fluent-Python-读书笔记-2/">
+
+
+
+
+
+  <title>Fluent Python 读书笔记(2) | Soundquiet</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d9df1d344a31f6d468cc97c7697df391";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Soundquiet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life with studying, coding and ciuji</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://soundquiet.github.io/2018/09/29/Fluent-Python-读书笔记-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun Fuling">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/sfl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Soundquiet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Fluent Python 读书笔记(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-29T16:35:12+08:00">
+                2018-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Fluent-Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Fluent Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/29/Fluent-Python-读书笔记-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/09/29/Fluent-Python-读书笔记-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>包括文本(第4章)和一等函数(第5章)<br><a id="more"></a></p>
+<h1 id="Chap-4-文本和字节序列"><a href="#Chap-4-文本和字节序列" class="headerlink" title="Chap 4 文本和字节序列"></a>Chap 4 文本和字节序列</h1><h2 id="4-1-字符问题"><a href="#4-1-字符问题" class="headerlink" title="4.1 字符问题"></a>4.1 字符问题</h2><p>一个<strong>字符串</strong>是一个字符序列。<br>2015年，<strong>字符</strong>的最佳定义是Unicode字符。<br>Unicode标准将字符的标识和具体的字节表述做了明确区分：</p>
+<ul>
+<li>字符的标识，即<strong>码位</strong> 在Unicode标准中以4-6个十六进制数字表示，并且加前缀“U+”</li>
+<li>字符的具体表述取决于所用的<strong>编码</strong>。编码是在码位和字符序列之间转换时使用的算法。</li>
+</ul>
+<p>把码位转为字节序列是<strong>编码</strong>， 反之是<strong>解码</strong>。</p>
+<h2 id="4-2-字节概要"><a href="#4-2-字节概要" class="headerlink" title="4.2 字节概要"></a>4.2 字节概要</h2><p>Python 3引入不可变bytes类型，2.6添加可变bytearray类型<br>bytes或bytearray对象的各个元素是介于0-255（含）之间的整数。<br><strong>二进制序列的切片始终是同一类型的二进制序列</strong></p>
+<p>各个字节的值会以三种不同的方式显示：</p>
+<ul>
+<li>可打印的ASCII范围内的字节（从空格到~），使用ASCII本身</li>
+<li>制表符、换行符、回车符和\对应的字节，使用转义序列\t,\n,\t,\</li>
+<li>其他字节的值，使用十六进制转义序列</li>
+</ul>
+<p>构建bytes和bytearray实例可以调用各自的构造方法，传入参数：</p>
+<ul>
+<li>一个str对象和一个encoding关键字参数</li>
+<li>一个可迭代对象，提供0-255之间的数值</li>
+<li>一个整数，使用空字节创建对应长度的二进制序列。（3.6删除）</li>
+<li>一个实现了缓冲协议的对象，如bytes, bytearray, memoryview, array.array，此时把原对象中的字节序列复制到新建的二进制序列中</li>
+</ul>
+<h3 id="结构体和内存视图"><a href="#结构体和内存视图" class="headerlink" title="结构体和内存视图"></a>结构体和内存视图</h3><p>memoryview不是用于创建或存储字节序列的，而是共享内存，可以访问其他二进制序列、打包的数组和缓冲中的数据切片，而无需复制字节序列。他的切片是一个新的memoryview对象，而且不会复制字节序列。</p>
+<h2 id="4-3-基本的编解码器"><a href="#4-3-基本的编解码器" class="headerlink" title="4.3 基本的编解码器"></a>4.3 基本的编解码器</h2><h2 id="4-4-了解编解码问题"><a href="#4-4-了解编解码问题" class="headerlink" title="4.4 了解编解码问题"></a>4.4 了解编解码问题</h2><h3 id="处理UnicodeEncodeError"><a href="#处理UnicodeEncodeError" class="headerlink" title="处理UnicodeEncodeError"></a>处理UnicodeEncodeError</h3><p>编码问题<br>把文本转换为字节序列时，如果目标编码中没有定义的某个字符，就会抛出<code>UnicodeEncodeError</code>。除非用errors参数传给编码方法或函数，对错误进行特殊处理。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">text.encode(<span class="string">'cp437'</span>, errors=<span class="string">'ignore|replace|xmlcharrefreplace'</span>)</span><br><span class="line"><span class="comment"># ignore 会跳过无法编码的字符</span></span><br><span class="line"><span class="comment"># replace 会用?替换无法编码的字符</span></span><br><span class="line"><span class="comment"># xmlcharrefreplace 将无法编码的字符替换成XML实体</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="处理UnicodeDecodeError"><a href="#处理UnicodeDecodeError" class="headerlink" title="处理UnicodeDecodeError"></a>处理UnicodeDecodeError</h3><p>不是每个字节都包含有效的ASCII字符，也不是每个字符序列都是有效的UTF8或16，在将二进制序列转换成文本时，假设是这两个编码中的一种，遇到无法转换的字节序列会抛出UnicodeDecodeError<br>而陈旧的8位编码，比如cp1252等能编码任何字节序列流而不抛出错误</p>
+<h3 id="使用预期之外的编码加载模块时抛出的SyntaxError"><a href="#使用预期之外的编码加载模块时抛出的SyntaxError" class="headerlink" title="使用预期之外的编码加载模块时抛出的SyntaxError"></a>使用预期之外的编码加载模块时抛出的SyntaxError</h3><p>Python 3默认使用UTF-8编码源码，而2.5开始则默认使用ASCII<br>如果加载的.py模块中包含UTF8之外的数据，而且没有声明编码，会得到SyntaxError<br>可在文件顶部添coding注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># coding: cp1252</span><br></pre></td></tr></table></figure></p>
+<h3 id="BOM的问题"><a href="#BOM的问题" class="headerlink" title="BOM的问题"></a>BOM的问题</h3><p>BOM是字节序标记，Unicode码点U+FEFF，放在UTF16文件的开头，如果字节序是FEFF则是大字节序，FFFE则是小字节序。<br>UTF8由于编码特性与字节序无关，所以不需要BOM。但是微软习惯在UTF8中使用BOM。  </p>
+<p><strong>锟斤拷的问题</strong>：一些语言体系在转为Unicode时，有些字符不存在，Unicode规定以<code>U+FFFD</code>作为占位符表示这些字符，用UTF8编码为<code>EF BF BD</code>， 连续多个<code>EF BF BD</code>会被GB编码程序以两个字节一个汉字的形式编码，就会出现“锟斤拷”。 为了避免这个问题可以减少程序的编码转换。<br><em>参考 <a href="http://jimliu.net/2015/03/07/something-about-encoding-extra/" target="_blank" rel="noopener">http://jimliu.net/2015/03/07/something-about-encoding-extra/</a></em></p>
+<h2 id="4-5-处理文本文件"><a href="#4-5-处理文本文件" class="headerlink" title="4.5 处理文本文件"></a>4.5 处理文本文件</h2><p>处理文本的最佳实践：</p>
+<ol>
+<li>解码输入的字节序列</li>
+<li>只处理文本</li>
+<li>编码输出的文本</li>
+</ol>
+<p>Python 3 内置的<code>open</code>函数会在读取文件时作必要的解码，以文本模式写入文件时还会做必要的编码，所以调用<code>my_file.read()</code>方法得到的以及传给<code>my_file.write(text)</code>方法都是字符串对象。  </p>
+<h3 id="编码默认值"><a href="#编码默认值" class="headerlink" title="编码默认值"></a>编码默认值</h3><p>如果打开文件时没有指定encoding参数，默认值由<code>locale.getpreferredencoding()</code>提供，这个值也是重定向到文件的<code>sys.stdout/stdin/stderr</code>的默认编码。但是，用户的编号设置在不同系统中的设定方式不同，而且在某些系统中可能无法通过编程方式设置，因此这个函数返回的只是猜测的编码。<br>所以，<strong>不要依赖默认值！！！</strong></p>
+<h2 id="4-6-为了正确比较而规范化Unicode字符串"><a href="#4-6-为了正确比较而规范化Unicode字符串" class="headerlink" title="4.6 为了正确比较而规范化Unicode字符串"></a>4.6 为了正确比较而规范化Unicode字符串</h2><p>Unicode有组合字符，字符串的比较会比较复杂。<br>比如，café有两种构成方式：</p>
+<ol>
+<li>café</li>
+<li>cafe\u0301</li>
+</ol>
+<p>因为它们的码位不同，所以比较结果是不等同的。<br>U+0301是COMBINING ACUTE ACCENT, 加在e后得到é。 在Unicode标准中，’café’和’e\u0301’称为<strong>标准等价物</strong>(canonical equivalent)。Python判断的是码位序列，因此判为不等。  </p>
+<p>这种问题的解决方式是：使用<code>unicodedata.normalize</code>函数提供的Unicode规范化。这个函数的第一个参数有四种选择：  </p>
+<ol>
+<li>NFC，Normalization Form C，使用最少的码位构成等价的字符串。<br>西方键盘通常能输出组合字符，因此用户输入的文本默认是NFC形式，但是还是在保存文本之前使用<code>normalize(&#39;NFC&#39;, text)</code>清洗文本。<br>使用NFC时，有些单字符会被规范为另一个单字符。比如电阻单位欧姆和希腊字母大写的欧米茄。二者在视觉上一样，但是比较时并不相等。</li>
+<li><p>NFD，把组合字符分解成基字符和单独的组合字符</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unicodedata <span class="keyword">import</span> normalize</span><br><span class="line">s1 = <span class="string">'café'</span></span><br><span class="line">s2 = <span class="string">'cafe\u0301'</span></span><br><span class="line">print(len(normalize(<span class="string">'NFC'</span>, s1)), len(normalize(<span class="string">'NFC'</span>, s2)))</span><br><span class="line"><span class="comment"># 4, 4</span></span><br><span class="line">print(len(normalize(<span class="string">'NFD'</span>, s1)), len(normalize(<span class="string">'NFD'</span>, s2)))</span><br><span class="line"><span class="comment"># 5, 5</span></span><br><span class="line">print(normalize(<span class="string">'NFC'</span>, s1) == normalize(<span class="string">'NFC'</span>, s2))</span><br><span class="line"><span class="comment"># true</span></span><br><span class="line">print(normalize(<span class="string">'NFD'</span>, s1) == normalize(<span class="string">'NFD'</span>, s2))</span><br><span class="line"><span class="comment"># true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>NFKC, K表示“compatibility”，兼容性，是比较严格的规范化形式，对“兼容字符”有影响。<br>在NFKC和NFKD中，兼容字符会被替换为一个或多个“兼容分解字符”，可能会损失或曲解信息，但是可以为<strong>搜索和索引</strong>提供便利的中间表述。</p>
+</li>
+<li>NFKD</li>
+</ol>
+<h3 id="大小写折叠"><a href="#大小写折叠" class="headerlink" title="大小写折叠"></a>大小写折叠</h3><p>大小写折叠将所有文本变成小写，再做些其他转换。  </p>
+<p>对于只包含latin1的字符的字符串s, <code>s.casefold()</code>和<code>s.lower()</code>一样，只有两个例外：</p>
+<ol>
+<li>微符号会变成小写希腊字母μ</li>
+<li>德语ß会变成ss</li>
+</ol>
+<p>Python 3.4起<code>s.casefold()</code>和<code>s.lower()</code>不同结果的有116个码位，占Unicode字符的0.11%</p>
+<h3 id="规范化文本匹配实用函数"><a href="#规范化文本匹配实用函数" class="headerlink" title="规范化文本匹配实用函数"></a>规范化文本匹配实用函数</h3><p>NFC和NFC可以合理比较Unicode字符串，对于大部分应用来说，NFC是最好的最规范化形式。<br>不区分大小写的应该使用<code>str.casefold()</code><br>处理多语言文本：</p>
+<ol>
+<li>nfc_equal<br>大小写敏感</li>
+<li>fold_equal<br>存在大小写折叠的问题</li>
+</ol>
+<h2 id="4-7-Unicode文本排序"><a href="#4-7-Unicode文本排序" class="headerlink" title="4.7 Unicode文本排序"></a>4.7 Unicode文本排序</h2><p>不同地区采用的排序规则有所不同。  </p>
+<p>在Python， 非ASCII文本的排序标准是使用<code>locale.strxfrm</code>函数，这个函数会把字符串转换为适合所在区域进行比较的形式。<br>在使用<code>locale.strxfrm</code>之前，必须先为应用设定合适的区域设置,<code>locale.setlocale(LC_COLLATE, &lt;YOUR_LOCALE&gt;)</code>(先import locale)</p>
+<p>区域设置是全局的！因此不推荐在库中调用<code>setlocale</code>，应用或框架应在进程启动时设定区域设置，而且此后不要再修改。</p>
+<h3 id="使用Unicode排序算法排序"><a href="#使用Unicode排序算法排序" class="headerlink" title="使用Unicode排序算法排序"></a>使用Unicode排序算法排序</h3><p>因为上述方法存在一些注意事项，James Tauber开发了Unicode排序算法，Unicode Collation Algorithm。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pyuca</span><br><span class="line">coll = pyuca.Collator()</span><br><span class="line">fruits = [ ... ]</span><br><span class="line">sorted_fruits = sorted(fruits, key=coll.sort_key)</span><br></pre></td></tr></table></figure></p>
+<p>PyUCA默认使用项目自带的allkeys.txt，没有考虑区域设置。</p>
+<h2 id="4-8-Unicode数据库"><a href="#4-8-Unicode数据库" class="headerlink" title="4.8 Unicode数据库"></a>4.8 Unicode数据库</h2><p>Unicode标准提供了一个完整的数据库，不仅包括码位与字符名称之间的映射，还有各个字符的元数据，以及字符之间的关系</p>
+<h2 id="4-9-支持字符串和字符序列的双模式API"><a href="#4-9-支持字符串和字符序列的双模式API" class="headerlink" title="4.9 支持字符串和字符序列的双模式API"></a>4.9 支持字符串和字符序列的双模式API</h2><h3 id="正则表达式中的字符串和字符序列"><a href="#正则表达式中的字符串和字符序列" class="headerlink" title="正则表达式中的字符串和字符序列"></a>正则表达式中的字符串和字符序列</h3><p>如果使用字符序列构建正则表达式，\d和\s等模式只能匹配ASCII字符；<br>如果使用字符串模式，就能匹配ASCII之外的Unicode数字或字母</p>
+<h3 id="os函数中的字符串和字符序列"><a href="#os函数中的字符串和字符序列" class="headerlink" title="os函数中的字符串和字符序列"></a>os函数中的字符串和字符序列</h3><p>os模块中的所有函数、文件名和路径名参数既能使用字符串，也能使用字节序列。  </p>
+<blockquote>
+<p> 字符串好多琐碎的知识啊<em>(:з)∠)</em></p>
+</blockquote>
+<h1 id="Chap-5-一等函数"><a href="#Chap-5-一等函数" class="headerlink" title="Chap 5 一等函数"></a>Chap 5 一等函数</h1><p><strong>一等对象</strong>满足：</p>
+<ol>
+<li>在运行时创建</li>
+<li>能赋值给变量或数据结构中的元素</li>
+<li>能作为参数传给函数</li>
+<li>能作为函数的返回结果</li>
+</ol>
+<p>Python中，整数、字符串、字典都是一等对象。 函数也是。</p>
+<h2 id="5-1-把函数视作对象"><a href="#5-1-把函数视作对象" class="headerlink" title="5.1 把函数视作对象"></a>5.1 把函数视作对象</h2><h2 id="5-2-高阶函数"><a href="#5-2-高阶函数" class="headerlink" title="5.2 高阶函数"></a>5.2 高阶函数</h2><p><strong>接收函数为参数</strong>，或者<strong>把函数作为结果返回</strong>的函数是<strong>高阶函数</strong>。<br>常见的有<code>map</code>, 内置函数<code>sorted</code>也是，可选的key参数用于提供一个函数,任何单函数参数都能作为key的值。</p>
+<p>在函数式编程范式里，最为人熟知的高阶函数有<code>map</code>, <code>filter</code>, <code>reduce</code>和<code>apply</code>。<br><code>apply</code>在Python 3 中移除了。  </p>
+<h3 id="map-filter和reduce的替代品"><a href="#map-filter和reduce的替代品" class="headerlink" title="map, filter和reduce的替代品"></a>map, filter和reduce的替代品</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list(map(factorial, range(<span class="number">6</span>)))</span><br><span class="line"><span class="comment"># 等同于</span></span><br><span class="line">[factorial(n) <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">6</span>)]</span><br><span class="line"></span><br><span class="line">list(map(factorial, filter(<span class="keyword">lambda</span> n : n % <span class="number">2</span>, range(<span class="number">6</span>))))</span><br><span class="line"><span class="comment"># 等同于</span></span><br><span class="line">[factorial(n) <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">6</span>) <span class="keyword">if</span> n % <span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<p>在Python 3 中，<code>map</code>和<code>filter</code>返回生成器，所以替代品是生成器表达式。 在Python 2 中返回的是列表，所以替代品是列表推导。</p>
+<p>Python 2 中<code>reduce</code>是内置函数， Python 3 中放入了<code>functools</code>模块中了。  常用于求和，最好使用内置的<code>sum</code>函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> add</span><br><span class="line">reduce(add, range(<span class="number">100</span>))</span><br><span class="line"><span class="comment"># 等同于</span></span><br><span class="line">sum(range(<span class="number">100</span>))</span><br></pre></td></tr></table></figure></p>
+<p><code>sum</code>和<code>reduce</code>的通用思想是把某个操作连续应用到序列的元素上，累计之前的结果，把系列值<strong>归约</strong>成一个值。还有以下内置归约函数：</p>
+<ul>
+<li>all(iterable) 如果每个元素都是真值，返回True， all([])返回True</li>
+<li>any(iterable) 只要元素中有真值，返回True， any([])返回True</li>
+</ul>
+<h2 id="5-3-匿名函数"><a href="#5-3-匿名函数" class="headerlink" title="5.3 匿名函数"></a>5.3 匿名函数</h2><p><code>lambda</code>关键字在Python表达式里创建匿名函数</p>
+<p>但是，lambda函数的定义体只能使用纯表达式： 不能赋值、不能使用while和try等Python语句。  </p>
+<p>在参数列表中最适合使用匿名函数。<br>除了作为参数传给高阶函数外，Python很少使用匿名函数。</p>
+<p>lambda句法只是语法糖（指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会。）和def语句一样，lambda表达式会创建函数对象。</p>
+<h2 id="5-4-可调用对象"><a href="#5-4-可调用对象" class="headerlink" title="5.4 可调用对象"></a>5.4 可调用对象</h2><p>判断对象能否被调用，可以使用内置的<code>callable()</code>函数。 Python数据模型文档列出了7中可调用对象：</p>
+<ol>
+<li>用户定义的函数<br>使用def语句或lambda表达式创建</li>
+<li>内置函数<br>使用C语言(CPython)实现的函数，如<code>len</code>或<code>time.strftime</code></li>
+<li>内置方法<br>使用C语言实现的方法，如<code>dict.get</code></li>
+<li>方法<br>在类的定义体中定义的函数</li>
+<li>类<br>调用类时会允许类的<code>__new__</code>方法创建一个实例，然后运行<code>__init__</code>方法，初始化实例，最后把实例返回给调用方。</li>
+<li>类的实例<br>如果类定义了<code>__call__</code>方法，它的实例可以作为函数调用</li>
+<li>生成器函数<br>使用<code>yield</code>关键字的函数或方法。调用生成器函数返回的是生成器对象</li>
+</ol>
+<h2 id="5-5-用户定义的可调用类型"><a href="#5-5-用户定义的可调用类型" class="headerlink" title="5.5 用户定义的可调用类型"></a>5.5 用户定义的可调用类型</h2><p>任何Python对象都可以表现得像函数，只需实现实例方法<code>__call__</code></p>
+<p>实现<code>__call__</code>方法的类是创建函数类对象的简便方法，此时必须在内部维护一个状态。让他在调用之间可用。<br>装饰器就是这样，它必须是函数，而且有时要在多次调用之间记住某些事。<br>创建保有内部状态的函数，还可以使用闭包。</p>
+<h2 id="5-6-函数内省"><a href="#5-6-函数内省" class="headerlink" title="5.6 函数内省"></a>5.6 函数内省</h2><p>内省是指在运行时确定对象类型的能力。</p>
+<p>用<code>dir()</code>函数可以查看某函数具有的属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir(factorial)</span><br></pre></td></tr></table></figure></p>
+<p>返回的属性大多数是Python对象共有的，可以通过求差集得到用户定义函数特有的属性。  </p>
+<p><strong>用户定义的函数的属性</strong><br>| 名称 | 类型 | 说明 |<br>| —– | —– | —-|<br>| <strong>annotations</strong> | dict | 参数和返回值的注解 |<br>| <strong>call</strong> | method-wrapper | 实现()运算符，即可调用对象协议 |<br>| <strong>closure</strong> | tuple | 函数闭包，即自由变量的绑定 |<br>| <strong>code</strong> | code | 编译成字节码的函数元数据和函数定义体 |<br>| <strong>defaults</strong> | tuple | 形式参数的默认值 |<br>| <strong>get</strong> | method-wrapper | 实现只读描述符协议 |<br>| <strong>globals</strong> | dict | 函数所在模块中的全局变量 |<br>| <strong>kwdefaults</strong> | dict | 仅限关键字形式参数的默认值 |<br>| <strong>name</strong> | str | 函数名称 |<br>| <strong>qualname</strong> | str | 函数的限定名称 |</p>
+<h2 id="5-7-从定位参数到仅限关键字参数"><a href="#5-7-从定位参数到仅限关键字参数" class="headerlink" title="5.7 从定位参数到仅限关键字参数"></a>5.7 从定位参数到仅限关键字参数</h2><p><strong>仅限关键字</strong> 是Python 3新特性，指参数只能通过关键字参数制定，一定不会捕获未命名的定位参数，它们在函数定义时放在前面有<em>的参数后面。<br>调用函数是使用 </em> 和 *<em> 展开可迭代对象，映射到单个参数。  
+</em>捕获该位置起的任意个参数。</p>
+<p>仅限关键字参数不一定要有默认值。</p>
+<h2 id="5-10-函数式编程"><a href="#5-10-函数式编程" class="headerlink" title="5.10 函数式编程"></a>5.10 函数式编程</h2><h3 id="operator模块"><a href="#operator模块" class="headerlink" title="operator模块"></a>operator模块</h3><p>operator模块为多个算数运算符提供了对应的函数。如<code>add</code>, <code>mul</code>等。<br><code>itemgetter</code>可以用来根据元素的某个字段给元组列表排序, 如果传入多个参数可返回提取的值构成的元组。<br><code>attrgetter</code>创建的函数根据名称提取对象的属性。</p>
+<h3 id="使用functools-partial-冻结参数"><a href="#使用functools-partial-冻结参数" class="headerlink" title="使用functools.partial 冻结参数"></a>使用functools.partial 冻结参数</h3><p><code>functools.partial</code> 用于部分应用于一个函数，基于一个函数创建新的可调用对象，把某些参数固定。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/23/Data-Visualization-and-D3-js-笔记-1/" rel="next" title="Data Visualization and D3.js 笔记(1)">
+                <i class="fa fa-chevron-left"></i> Data Visualization and D3.js 笔记(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/Data-Visualization-and-D3-js-笔记-2/" rel="prev" title="Data Visualization and D3.js 笔记(2)">
+                Data Visualization and D3.js 笔记(2) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sfl.jpg" alt="Sun Fuling">
+            
+              <p class="site-author-name" itemprop="name">Sun Fuling</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ciuji.me/" title="ciuji" target="_blank">ciuji</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lianqing11.github.io/" title="LianQing" target="_blank">LianQing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chap-4-文本和字节序列"><span class="nav-number">1.</span> <span class="nav-text">Chap 4 文本和字节序列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-字符问题"><span class="nav-number">1.1.</span> <span class="nav-text">4.1 字符问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-字节概要"><span class="nav-number">1.2.</span> <span class="nav-text">4.2 字节概要</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构体和内存视图"><span class="nav-number">1.2.1.</span> <span class="nav-text">结构体和内存视图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-基本的编解码器"><span class="nav-number">1.3.</span> <span class="nav-text">4.3 基本的编解码器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-了解编解码问题"><span class="nav-number">1.4.</span> <span class="nav-text">4.4 了解编解码问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#处理UnicodeEncodeError"><span class="nav-number">1.4.1.</span> <span class="nav-text">处理UnicodeEncodeError</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理UnicodeDecodeError"><span class="nav-number">1.4.2.</span> <span class="nav-text">处理UnicodeDecodeError</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用预期之外的编码加载模块时抛出的SyntaxError"><span class="nav-number">1.4.3.</span> <span class="nav-text">使用预期之外的编码加载模块时抛出的SyntaxError</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BOM的问题"><span class="nav-number">1.4.4.</span> <span class="nav-text">BOM的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-处理文本文件"><span class="nav-number">1.5.</span> <span class="nav-text">4.5 处理文本文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编码默认值"><span class="nav-number">1.5.1.</span> <span class="nav-text">编码默认值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-6-为了正确比较而规范化Unicode字符串"><span class="nav-number">1.6.</span> <span class="nav-text">4.6 为了正确比较而规范化Unicode字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#大小写折叠"><span class="nav-number">1.6.1.</span> <span class="nav-text">大小写折叠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规范化文本匹配实用函数"><span class="nav-number">1.6.2.</span> <span class="nav-text">规范化文本匹配实用函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-7-Unicode文本排序"><span class="nav-number">1.7.</span> <span class="nav-text">4.7 Unicode文本排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Unicode排序算法排序"><span class="nav-number">1.7.1.</span> <span class="nav-text">使用Unicode排序算法排序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-8-Unicode数据库"><span class="nav-number">1.8.</span> <span class="nav-text">4.8 Unicode数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-9-支持字符串和字符序列的双模式API"><span class="nav-number">1.9.</span> <span class="nav-text">4.9 支持字符串和字符序列的双模式API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正则表达式中的字符串和字符序列"><span class="nav-number">1.9.1.</span> <span class="nav-text">正则表达式中的字符串和字符序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#os函数中的字符串和字符序列"><span class="nav-number">1.9.2.</span> <span class="nav-text">os函数中的字符串和字符序列</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chap-5-一等函数"><span class="nav-number">2.</span> <span class="nav-text">Chap 5 一等函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-把函数视作对象"><span class="nav-number">2.1.</span> <span class="nav-text">5.1 把函数视作对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-高阶函数"><span class="nav-number">2.2.</span> <span class="nav-text">5.2 高阶函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map-filter和reduce的替代品"><span class="nav-number">2.2.1.</span> <span class="nav-text">map, filter和reduce的替代品</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-匿名函数"><span class="nav-number">2.3.</span> <span class="nav-text">5.3 匿名函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-可调用对象"><span class="nav-number">2.4.</span> <span class="nav-text">5.4 可调用对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5-用户定义的可调用类型"><span class="nav-number">2.5.</span> <span class="nav-text">5.5 用户定义的可调用类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-6-函数内省"><span class="nav-number">2.6.</span> <span class="nav-text">5.6 函数内省</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-7-从定位参数到仅限关键字参数"><span class="nav-number">2.7.</span> <span class="nav-text">5.7 从定位参数到仅限关键字参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-10-函数式编程"><span class="nav-number">2.8.</span> <span class="nav-text">5.10 函数式编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#operator模块"><span class="nav-number">2.8.1.</span> <span class="nav-text">operator模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用functools-partial-冻结参数"><span class="nav-number">2.8.2.</span> <span class="nav-text">使用functools.partial 冻结参数</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun Fuling</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: 'Fluent Python 读书笔记(2)', 
+            owner: 'soundquiet',
+            repo: 'soundquiet.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '262a84fa3d903d2933b70fe9fa90a5db8ed57333',
+            
+                client_id: 'b604845ecbd0c13cb82d'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
