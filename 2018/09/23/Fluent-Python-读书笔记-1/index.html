@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,读书笔记,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Soundquiet" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Chap 2 序列构成的数组2.1 内置序列类型 容器序列 存放的是所包含的任意类型的对象的引用。list, tuple, collections.deque等 扁平序列 存放的是值，是一段连续的内存空间，更为紧凑，但只能存放字符、字节和数值这种基础类型。str, bytes, bytearray, memoryview, array.array等    或者根据能否被修改来分类：  可变序列 l">
+<meta name="keywords" content="Python,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fluent Python 读书笔记 (1)">
+<meta property="og:url" content="https://soundquiet.github.io/2018/09/23/Fluent-Python-读书笔记-1/index.html">
+<meta property="og:site_name" content="Soundquiet">
+<meta property="og:description" content="Chap 2 序列构成的数组2.1 内置序列类型 容器序列 存放的是所包含的任意类型的对象的引用。list, tuple, collections.deque等 扁平序列 存放的是值，是一段连续的内存空间，更为紧凑，但只能存放字符、字节和数值这种基础类型。str, bytes, bytearray, memoryview, array.array等    或者根据能否被修改来分类：  可变序列 l">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/hash.png">
+<meta property="og:updated_time" content="2018-09-23T14:22:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fluent Python 读书笔记 (1)">
+<meta name="twitter:description" content="Chap 2 序列构成的数组2.1 内置序列类型 容器序列 存放的是所包含的任意类型的对象的引用。list, tuple, collections.deque等 扁平序列 存放的是值，是一段连续的内存空间，更为紧凑，但只能存放字符、字节和数值这种基础类型。str, bytes, bytearray, memoryview, array.array等    或者根据能否被修改来分类：  可变序列 l">
+<meta name="twitter:image" content="https://soundquiet.github.io/images/blogs/hash.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://soundquiet.github.io/2018/09/23/Fluent-Python-读书笔记-1/">
+
+
+
+
+
+  <title>Fluent Python 读书笔记 (1) | Soundquiet</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d9df1d344a31f6d468cc97c7697df391";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Soundquiet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life with studying, coding and ciuji</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://soundquiet.github.io/2018/09/23/Fluent-Python-读书笔记-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun Fuling">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/sfl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Soundquiet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Fluent Python 读书笔记 (1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-23T21:51:58+08:00">
+                2018-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Fluent-Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Fluent Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/23/Fluent-Python-读书笔记-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/09/23/Fluent-Python-读书笔记-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Chap-2-序列构成的数组"><a href="#Chap-2-序列构成的数组" class="headerlink" title="Chap 2 序列构成的数组"></a>Chap 2 序列构成的数组</h1><h2 id="2-1-内置序列类型"><a href="#2-1-内置序列类型" class="headerlink" title="2.1 内置序列类型"></a>2.1 内置序列类型</h2><ul>
+<li><strong>容器序列</strong> 存放的是所包含的任意类型的对象的引用。list, tuple, collections.deque等</li>
+<li><strong>扁平序列</strong> 存放的是值，是一段连续的内存空间，更为紧凑，但只能存放字符、字节和数值这种基础类型。str, bytes, bytearray, memoryview, array.array等  </li>
+</ul>
+<p>或者根据能否被修改来分类：</p>
+<ul>
+<li><strong>可变序列</strong> list, bytearray, array.array, collections.deque和memoryview。</li>
+<li><strong>不可变序列</strong> tuple, str, bytes<a id="more"></a>
+<h2 id="2-2-列表推导和生成器表达式"><a href="#2-2-列表推导和生成器表达式" class="headerlink" title="2.2 列表推导和生成器表达式"></a>2.2 列表推导和生成器表达式</h2><h3 id="列表推导-list-comprehension"><a href="#列表推导-list-comprehension" class="headerlink" title="列表推导 list comprehension"></a>列表推导 list comprehension</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codes = [ord(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> symbols]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>通常的原则是，只用列表推导来生成新的列表。<br>Python 3之后列表推导不出现变量泄露。  </p>
+<ul>
+<li>注：Python会忽略代码里[]、{}和()中的换行。 </li>
+</ul>
+<p><strong>列表推导与笛卡儿积</strong><br>用列表推导可以生成两个或两个以上的可迭代类型的笛卡儿积，笛卡儿积是一个列表，列表中的元素为输入的可迭代元素构成的元组。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">colors = [<span class="string">'black'</span>, <span class="string">'white'</span>]</span><br><span class="line">sizes = [<span class="string">'S'</span>, <span class="string">'M'</span>, <span class="string">'L'</span>]</span><br><span class="line"><span class="comment"># 先以color排序</span></span><br><span class="line">tshirts = [(color, size) <span class="keyword">for</span> color <span class="keyword">in</span> colors <span class="keyword">for</span> size <span class="keyword">in</span> sizes]</span><br><span class="line"><span class="comment"># 先以size排序</span></span><br><span class="line">tshirts = [(color, size) <span class="keyword">for</span> size <span class="keyword">in</span> sizes <span class="keyword">for</span> color <span class="keyword">in</span> colors]</span><br></pre></td></tr></table></figure></p>
+<h3 id="生成器表达式"><a href="#生成器表达式" class="headerlink" title="生成器表达式"></a>生成器表达式</h3><p>生成器表达式可以逐个产出元素，而不是先建立一个完整的列表。语法跟列表推导差不多，将[]换乘()。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">colors = [<span class="string">'black'</span>, <span class="string">'white'</span>]</span><br><span class="line">sizes = [<span class="string">'S'</span>, <span class="string">'M'</span>, <span class="string">'L'</span>]</span><br><span class="line"><span class="keyword">for</span> tshirt <span class="keyword">in</span> (<span class="string">'%s %s'</span> % (c, s) <span class="keyword">for</span> c <span class="keyword">in</span> colors <span class="keyword">for</span> s <span class="keyword">in</span> sizes):</span><br><span class="line">    print(tshirt)</span><br></pre></td></tr></table></figure></p>
+<p>与列表推导不同，使用生成器表达式后，内存里不会留下一个有6个组合的列表，因为<strong>生成器表达式会在每次for循环运行时才生成一个组合</strong>。</p>
+<h2 id="2-3-元组"><a href="#2-3-元组" class="headerlink" title="2.3 元组"></a>2.3 元组</h2><p>元素是对数据的记录，它的每个元素都存放了记录中一个字段的数据，外加这个字段的位置。 <strong>元组不仅仅是不可变的列表</strong></p>
+<h3 id="元组拆包"><a href="#元组拆包" class="headerlink" title="元组拆包"></a>元组拆包</h3><p>平行赋值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coordinates = (<span class="number">22</span>, <span class="number">-118</span>)</span><br><span class="line">latitude, longitude = coordinates</span><br></pre></td></tr></table></figure></p>
+<p>用*运算符把一个可迭代对象拆开作为函数的参数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t = (<span class="number">20</span>, <span class="number">8</span>)</span><br><span class="line">quotient, remainder = divmod(*t)</span><br></pre></td></tr></table></figure></p>
+<p>如果只对元组中部分数据感兴趣，可以使用<code>_</code>占位符。<br>还可以使用<code>*</code>来处理剩下的元素, 以<code>*args</code>来获取不确定数量的参数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a, b, *rest = range(<span class="number">5</span>)</span><br><span class="line">print(a, b, rest)</span><br><span class="line"><span class="comment">#(0, 1, [2, 3, 4])</span></span><br><span class="line">head, a, b = range(<span class="number">5</span>)</span><br><span class="line"><span class="comment">#([0, 1, 2], 3, 4)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="具名元组"><a href="#具名元组" class="headerlink" title="具名元组"></a>具名元组</h3><p><code>collections.namedtuple</code>可以用来构建一个带字段名的元组和一个有名字的类。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line">City = namedtuple(<span class="string">'City'</span>, <span class="string">'name country population coordinates'</span>)</span><br><span class="line"><span class="comment"># 具名元组的创建需要两个参数，一个是类名，另一个是类名各个字段的名称</span></span><br><span class="line">tokyo = City(<span class="string">'Tokyo'</span>, <span class="string">'JP'</span>, <span class="number">36.933</span>, (<span class="number">35</span>, <span class="number">139</span>))</span><br><span class="line"><span class="comment"># 以一串参数的形式将数据传入构造函数里，而元组的构造函数tuple()只能接受单一的可迭代对象</span></span><br><span class="line"><span class="comment"># tokyo.population 可以直接访问字段信息</span></span><br></pre></td></tr></table></figure></p>
+<p>具名元组的常用属性有：</p>
+<ul>
+<li>_fields 包含这个类所有字段的元组</li>
+<li>类方法 _make(iterable) 接受一个可迭代对象来生成这个类的实例，作用和 City(*data_tuple) 相同</li>
+<li>实例方法 _asdict() 将具名元组以collections.OrderedDict的形式返回</li>
+</ul>
+<h2 id="2-4-切片"><a href="#2-4-切片" class="headerlink" title="2.4 切片"></a>2.4 切片</h2><p><strong>切片和区间都会忽略最后一个元素</strong></p>
+<h3 id="对对象进行切片"><a href="#对对象进行切片" class="headerlink" title="对对象进行切片"></a>对对象进行切片</h3><p><code>s[a:b:c]</code>表示在a和b之间以c为间隔取值。c为负值表示反向取值。这种用法只能作为索引或者下标在[]之间返回一个切片对象。<br>Python会调用<code>s.__getitem__(slice(start, stop, step))</code>.</p>
+<h3 id="多维切片和省略"><a href="#多维切片和省略" class="headerlink" title="多维切片和省略"></a>多维切片和省略</h3><p>[]运算符还可以是用以逗号分开的多个索引或者切片。比如numpy中numpy.ndarray就可以用<code>a[i,j]</code>或者<code>a[m:n, i:j]</code>的方式来获取。对象的特殊方法<code>__getitem__</code>和<code>__setitem__</code>需要以元组的形式来接收<code>a[i, j]</code>中的索引.<br><strong>省略</strong>是<strong>三个英文句号</strong><code>...</code>。如果x是四维数组，<code>x[i, ...]</code>就是<code>x[i, :, :, :]</code></p>
+<h3 id="给切片赋值"><a href="#给切片赋值" class="headerlink" title="给切片赋值"></a>给切片赋值</h3><p>如果把切片放在赋值语句的左边，或者将他作为<code>del</code>操作的对象，可以对序列进行<strong>嫁接、切除或者就地修改</strong>。</p>
+<h2 id="2-5-对序列进行-和"><a href="#2-5-对序列进行-和" class="headerlink" title="2.5 对序列进行+和*"></a>2.5 对序列进行+和*</h2><p><code>+</code>号两侧的序列由相同类型的数据所构成，不会对原序列进行修改， 而是新建一个类来作为拼接的结果。<br><code>*</code>号将序列复制几份然后拼接起来，同样不就地修改。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my_list = [[<span class="string">'_'</span>]] * <span class="number">3</span></span><br><span class="line"><span class="comment"># 包含的3个元素是对同一个列表的引用</span></span><br></pre></td></tr></table></figure></p>
+<p>应该为：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">board = [[<span class="string">'_'</span>] * <span class="number">3</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>)] <span class="comment"># correct</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="2-6-序列的增量赋值"><a href="#2-6-序列的增量赋值" class="headerlink" title="2.6 序列的增量赋值"></a>2.6 序列的增量赋值</h2><p><code>+=</code>和<code>*=</code>的表现取决于他们第一个操作对象。<br><code>+=</code>的特殊方法是<code>__iadd__</code>，但是如果一个类没有实现这个方法的话，会退一步调用<code>__add__</code>, 先计算a+b, 得到一个新的对象， 然后赋值给a。<br>所以对于不可变序列进行重复拼接操作效率会很低。</p>
+<h2 id="2-7-list-sort方法和内置函数sorted"><a href="#2-7-list-sort方法和内置函数sorted" class="headerlink" title="2.7 list.sort方法和内置函数sorted"></a>2.7 list.sort方法和内置函数sorted</h2><p><code>list.sort</code>会就地排序，这方法的返回值是None。（如果一个函数或者方法对对象进行的是就地改动，那么返回值就为None）<br>而<code>sorted</code>会返回一个新建的列表，它可以接收任何形式的可迭代对象，包括不可变序列和生成器。<br><code>list.sort</code>和 <code>sorted</code>都有两个参数：</p>
+<ul>
+<li>reverse 如果为true，为降序输出。默认值为false</li>
+<li>key 会作用在每个元素上，所产生的结果是算法依赖的对比关键字。比如key=str.lower会实现忽略大小写的排序， key=len会进行字符串长度的排序。<h2 id="2-8-用bisect来管理已排序的序列。"><a href="#2-8-用bisect来管理已排序的序列。" class="headerlink" title="2.8 用bisect来管理已排序的序列。"></a>2.8 用bisect来管理已排序的序列。</h2>bisect模块包含<code>bisect</code>和<code>insort</code>两个主要函数，都是利用二分查找算法来在有序序列中查找或插入元素。<h3 id="用bisect来搜索"><a href="#用bisect来搜索" class="headerlink" title="用bisect来搜索"></a>用bisect来搜索</h3><code>bisect(haystack, needle)</code>表示在 haystack 里搜索 needle 的位置，该位置满足的条件是：把 needle 插入后还能保持升序。<br>可以先用<code>bisect(haystack, needle)</code>查找index，然后用<code>haystack.insert(index, neddle)</code>来插入新值。 但是<code>insort</code>比这个方法更快。   <h3 id="用bisect-insort插入新元素"><a href="#用bisect-insort插入新元素" class="headerlink" title="用bisect.insort插入新元素"></a>用bisect.insort插入新元素</h3><code>insort(seq, item)</code>将 item 插入 seq 中，并且保持 seq 的升序。</li>
+</ul>
+<h2 id="2-9-数组"><a href="#2-9-数组" class="headerlink" title="2.9 数组"></a>2.9 数组</h2><p>如果要存放的是1000万个浮点数时，array 的效率比列表高得多，因为它背后存的并不是 float 对象，而是数字的机器翻译。<br>Python 创建数组需要类型码，用于表示在底层的 C 语言应该存放怎样的数据类型。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> array <span class="keyword">import</span> array</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> random</span><br><span class="line">floats = array(<span class="string">'d'</span>, (random() <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>**<span class="number">7</span>)))</span><br></pre></td></tr></table></figure></p>
+<h3 id="内存视图"><a href="#内存视图" class="headerlink" title="内存视图"></a>内存视图</h3><p><code>memoryview</code> 是一个内置类，让用户在不复制内容的情况下操作一个数组的不同切片。</p>
+<h3 id="双向队列和其他形式的队列"><a href="#双向队列和其他形式的队列" class="headerlink" title="双向队列和其他形式的队列"></a>双向队列和其他形式的队列</h3><p>利用<code>append</code>和<code>pop</code>方法，可以将列表当成栈或队列来使用，但是删除列表元素是比较麻烦的操作。<br><code>collections.deque</code>是一个线程安全、可以快速从两端添加或者删除元素的数据类型。</p>
+<ul>
+<li>s.append(e) 添加一个元素到最右侧</li>
+<li>s.appendleft(e) 添加一个元素到最左侧</li>
+<li>s.extend(i) 将可迭代对象i中的元素<strong>依次</strong>添加到尾部</li>
+<li>s.extendleft(i) 将可迭代对象i中的元素<strong>依次</strong>添加到头部</li>
+</ul>
+<h1 id="Chap-3-字典和集合"><a href="#Chap-3-字典和集合" class="headerlink" title="Chap 3 字典和集合"></a>Chap 3 字典和集合</h1><h2 id="3-1-泛映射类型"><a href="#3-1-泛映射类型" class="headerlink" title="3.1 泛映射类型"></a>3.1 泛映射类型</h2><p>标准库里的所有映射类型都是利用dict来实现的， 因此只有可散列的数据类型才能用作这些映射里的<strong>键</strong>，（值无要求）。</p>
+<h3 id="可散列的数据类型"><a href="#可散列的数据类型" class="headerlink" title="可散列的数据类型"></a>可散列的数据类型</h3><p>如果一个对象是可散列的，那么在这个对象的生命周期中，它的散列值是不变的，而且这个对象需要实现<code>__hash__()</code>方法，和<code>__eq__()</code>方法来跟其他键作比较，如果这两个可散列对象是相等的，那么它们的散列值一定相等。<br>原子不可变数据类型（str, bytes 和数值类型）都是可散列类型。  </p>
+<h2 id="3-2-字典推导"><a href="#3-2-字典推导" class="headerlink" title="3.2 字典推导"></a>3.2 字典推导</h2><p>Python2.7 后将列表推导和生成器表达式的概念移植到了字典上。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DIAL_CODES = [</span><br><span class="line">        (<span class="number">86</span>, <span class="string">'China'</span>),</span><br><span class="line">        (<span class="number">91</span>, <span class="string">'India'</span>),</span><br><span class="line">        (<span class="number">1</span>, <span class="string">'United States'</span>)</span><br><span class="line">    ]</span><br><span class="line">country_code = &#123; country: code <span class="keyword">for</span> code, country <span class="keyword">in</span> DIAL_CODES&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-3-常见的映射方法"><a href="#3-3-常见的映射方法" class="headerlink" title="3.3 常见的映射方法"></a>3.3 常见的映射方法</h2><p>page 57  </p>
+<h3 id="用setdefault处理找不到的键"><a href="#用setdefault处理找不到的键" class="headerlink" title="用setdefault处理找不到的键"></a>用setdefault处理找不到的键</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my_dict.setdefault(word, []).append(location)</span><br></pre></td></tr></table></figure>
+<p>等同于<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> my_dict:</span><br><span class="line">    my_dict[key] = []</span><br><span class="line">my_dict[key].append(location)</span><br></pre></td></tr></table></figure></p>
+<p>后者需要至少两次的键查询，如果键不存在，需要3次。<br>而<code>setdefault</code>只需要一次。</p>
+<h2 id="3-4-映射的弹性键查询"><a href="#3-4-映射的弹性键查询" class="headerlink" title="3.4 映射的弹性键查询"></a>3.4 映射的弹性键查询</h2><p>setdefault是在插入值的时候检查键， 如果我们在单纯查找键的之后，也能在键不存在的时候得到一个默认值，有两种方法：</p>
+<ol>
+<li>通过defaultdict这个类型，而不是普通的dict类</li>
+<li>定义一个dict的子类，在子类中实现<code>__missing__</code>方法  </li>
+</ol>
+<h3 id="defaultdict"><a href="#defaultdict" class="headerlink" title="defaultdict"></a>defaultdict</h3><p>用户在创建defaultdict对象的时候，需要给构造方法提供一个可调用对象，在<code>__getitem__</code>找不到键的时候调用它，返回某个默认值。  </p>
+<ol>
+<li>创建<code>dd = defaultdict(list)</code>，访问键<code>new-key</code>不存在</li>
+<li>调用<code>list()</code>生成一个新的列表</li>
+<li>将这个列表作为值，<code>new-key</code>作为键，放在<code>dd</code>中</li>
+<li>返回这个列表的引用</li>
+</ol>
+<p>如果在创建defaultdict的时候没有指定<code>default_factory</code>，查询不存在的键会报错。<code>default_factory</code>只对<code>__getitem__</code>有效</p>
+<h3 id="特殊方法missing"><a href="#特殊方法missing" class="headerlink" title="特殊方法missing"></a>特殊方法<strong>missing</strong></h3><p>所有映射类型在处理找不到的键时都会牵扯到<code>__missing__</code>方法。<br><code>__missing__</code>方法只对<code>__getitem__</code>有效，对<code>get</code>或<code>contains</code>无效。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrKeyDict0</span><span class="params">(dict)</span>:</span>  <span class="comment"># &lt;1&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__missing__</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(key, str):  <span class="comment"># &lt;2&gt;</span></span><br><span class="line">            <span class="keyword">raise</span> KeyError(key)</span><br><span class="line">        <span class="keyword">return</span> self[str(key)]  <span class="comment"># &lt;3&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key, default=None)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> self[key]  <span class="comment"># &lt;4&gt;</span></span><br><span class="line">        <span class="keyword">except</span> KeyError:</span><br><span class="line">            <span class="keyword">return</span> default  <span class="comment"># &lt;5&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__contains__</span><span class="params">(self, key)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> key <span class="keyword">in</span> self.keys() <span class="keyword">or</span> str(key) <span class="keyword">in</span> self.keys()  <span class="comment"># &lt;6&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Tests for item retrieval using `d[key]` notation::</span><br><span class="line">&gt;&gt;&gt; d = StrKeyDict0([(&apos;2&apos;, &apos;two&apos;), (&apos;4&apos;, &apos;four&apos;)])</span><br><span class="line">&gt;&gt;&gt; d[&apos;2&apos;]</span><br><span class="line">&apos;two&apos;</span><br><span class="line">&gt;&gt;&gt; d[4]</span><br><span class="line">&apos;four&apos;</span><br><span class="line">&gt;&gt;&gt; d[1]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">    ...</span><br><span class="line">KeyError: &apos;1&apos;</span><br><span class="line">Tests for item retrieval using `d.get(key)` notation::</span><br><span class="line">&gt;&gt;&gt; d.get(&apos;2&apos;)</span><br><span class="line">&apos;two&apos;</span><br><span class="line">&gt;&gt;&gt; d.get(4)</span><br><span class="line">&apos;four&apos;</span><br><span class="line">&gt;&gt;&gt; d.get(1, &apos;N/A&apos;)</span><br><span class="line">&apos;N/A&apos;</span><br><span class="line">Tests for the `in` operator::</span><br><span class="line">&gt;&gt;&gt; 2 in d</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; 1 in d</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
+<h2 id="3-5-字典的变种"><a href="#3-5-字典的变种" class="headerlink" title="3.5 字典的变种"></a>3.5 字典的变种</h2><p>在collections模块中，除了defaultdict之外，还有：</p>
+<ul>
+<li>collections.OrderDict: 添加键的时候会保持顺序。  </li>
+<li>collections.ChainMap: 可以容纳数个不同的映射对象，在进行键查找的时候，这些对象会被当作一个整体被逐个查找，直到这个键被找到为止。</li>
+<li>collections.Counter: 给键提供整数计数器</li>
+<li>collections.UserDict: 把标准dict用纯Python实现</li>
+</ul>
+<h2 id="3-6-子类化UserDict"><a href="#3-6-子类化UserDict" class="headerlink" title="3.6 子类化UserDict"></a>3.6 子类化UserDict</h2><p>倾向于用UserDict而不是从dict继承，主要是因为后者会在某些方法的实现上走捷径，使得我们需要在子类中重写。<br>UserDict不是dict的子类，在UserDict中的data属性是dict的实例，是UserDict最终存储数据的地方。</p>
+<h2 id="3-7-不可变映射类型"><a href="#3-7-不可变映射类型" class="headerlink" title="3.7 不可变映射类型"></a>3.7 不可变映射类型</h2><p>标准库里的所有映射类型都是不可变的。<br>从Python3.3，types模块中引入了一个封装类名叫<code>MappingProxyType</code>, 如果给这个类一个映射，他会返回一个<strong>只读</strong>的映射视图。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> types <span class="keyword">import</span> MappingProxyType</span><br><span class="line">d = &#123;<span class="number">1</span> : <span class="string">'A'</span>&#125;</span><br><span class="line">d_proxy = MappingProxyType(d)</span><br></pre></td></tr></table></figure></p>
+<p><code>d</code>中的内容可通过<code>d_proxy</code>查看，并且是随着<code>d</code>动态更新的。但是不能对<code>d_proxy</code>进行修改。  </p>
+<h2 id="3-8-集合论"><a href="#3-8-集合论" class="headerlink" title="3.8 集合论"></a>3.8 集合论</h2><p>集合的本质是许多唯一对象的聚集。-&gt; 可以用于去重。<br>集合中的元素必须是可散列的，但set本身是不可散列的，而frozenset可以。</p>
+<p><strong>中缀运算符</strong></p>
+<ul>
+<li>a | b 返回合集</li>
+<li>a &amp; b 返回交集</li>
+<li>a - b 返回差集</li>
+</ul>
+<h3 id="集合字面量"><a href="#集合字面量" class="headerlink" title="集合字面量"></a>集合字面量</h3><p>空集必须写成<code>set()</code>的形式，否则<code>{}</code>会被认为是字典。而非空集，可以以数学形式写出，即{1，2，3，4}.<br>遇到{1，2，3}这样的字面量，Python会利用BUILD_SET字节码来创建集合。<br>而构造方法<code>set([1,2,3])</code>会先用set来查询构造方法，然后新建一个列表，再把这个列表传入构造方法中。<br>而frozenset没有对应的特殊字面量句法，只能使用构造方法<code>frozenset([1,2,3])</code>  </p>
+<h3 id="集合推导"><a href="#集合推导" class="headerlink" title="集合推导"></a>集合推导</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> unicodedata <span class="keyword">import</span> name</span><br><span class="line">&#123;chr(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>, <span class="number">256</span>) <span class="keyword">if</span> <span class="string">'SIGN'</span> <span class="keyword">in</span> name(chr(i), <span class="string">''</span>)&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="集合的操作"><a href="#集合的操作" class="headerlink" title="集合的操作"></a>集合的操作</h3><h2 id="3-9-dict和set的背后"><a href="#3-9-dict和set的背后" class="headerlink" title="3.9 dict和set的背后"></a>3.9 dict和set的背后</h2><h3 id="字典中的散列表"><a href="#字典中的散列表" class="headerlink" title="字典中的散列表"></a>字典中的散列表</h3><p>散列表是一个稀疏数组，散列表中的单元一般称为表元，表元大小一致。<br>在dict的散列表中，每个键值对占用一个表元，每个表元有两个部分，一个是对键的引用，一个是对值的引用。可以通过偏移量来读取某个表元。<br>Python会设法保证大概还有三分之一的表元为空，所以在即将到达这个阈值时，原散列表会被复制到更大的空间里。<br>要把对象放入散列表，首先计算这个元素键的散列值，Python中用hash()。</p>
+<ol>
+<li>散列值和相等性<br>内置的hash()可以用于所有内置类型对象。自定义对象调用hash()运行的是自定义的<code>__hash__</code>。<br>如果两个对象在比较时是相等的，它们的散列值也必须相等。<br>在Python3.3之后，str, bytes和datetime对象的散列值计算时多了随机<strong>加盐</strong>的过程，所加盐值是Python进程内的一个常量，每次启动Python解释器会生成不同的盐值。这是为了防止DOS攻击。</li>
+<li>散列表算法  </li>
+</ol>
+<p><img src="/images/blogs/hash.png" alt></p>
+<h3 id="dict的实现及其导致的结果"><a href="#dict的实现及其导致的结果" class="headerlink" title="dict的实现及其导致的结果"></a>dict的实现及其导致的结果</h3><ol>
+<li>键必须是可散列的</li>
+<li>字典在内存上的开销巨大</li>
+<li>键查询很快</li>
+<li>键的次序取决于添加顺序</li>
+<li>往字典里新加键可能会改变已有顺序<br>加键时可能会导致字典被扩容。所以不要对字典同时进行迭代和修改操作</li>
+</ol>
+<h3 id="set的实现以及导致的结果"><a href="#set的实现以及导致的结果" class="headerlink" title="set的实现以及导致的结果"></a>set的实现以及导致的结果</h3><p>set和frozenset在散列表中存放的只有元素的引用。</p>
+<ol>
+<li>元素必须是可散列的</li>
+<li>很消耗内存</li>
+<li>可以高效判断元素是否存在于集合内</li>
+<li>元素的次序取决于添加顺序</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/18/React学习笔记-1/" rel="next" title="React学习笔记(1)">
+                <i class="fa fa-chevron-left"></i> React学习笔记(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/23/Data-Visualization-and-D3-js-笔记-1/" rel="prev" title="Data Visualization and D3.js 笔记(1)">
+                Data Visualization and D3.js 笔记(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sfl.jpg" alt="Sun Fuling">
+            
+              <p class="site-author-name" itemprop="name">Sun Fuling</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ciuji.me/" title="ciuji" target="_blank">ciuji</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lianqing11.github.io/" title="LianQing" target="_blank">LianQing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chap-2-序列构成的数组"><span class="nav-number">1.</span> <span class="nav-text">Chap 2 序列构成的数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-内置序列类型"><span class="nav-number">1.1.</span> <span class="nav-text">2.1 内置序列类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-列表推导和生成器表达式"><span class="nav-number">1.2.</span> <span class="nav-text">2.2 列表推导和生成器表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#列表推导-list-comprehension"><span class="nav-number">1.2.1.</span> <span class="nav-text">列表推导 list comprehension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成器表达式"><span class="nav-number">1.2.2.</span> <span class="nav-text">生成器表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-元组"><span class="nav-number">1.3.</span> <span class="nav-text">2.3 元组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#元组拆包"><span class="nav-number">1.3.1.</span> <span class="nav-text">元组拆包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具名元组"><span class="nav-number">1.3.2.</span> <span class="nav-text">具名元组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-切片"><span class="nav-number">1.4.</span> <span class="nav-text">2.4 切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对对象进行切片"><span class="nav-number">1.4.1.</span> <span class="nav-text">对对象进行切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多维切片和省略"><span class="nav-number">1.4.2.</span> <span class="nav-text">多维切片和省略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给切片赋值"><span class="nav-number">1.4.3.</span> <span class="nav-text">给切片赋值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-对序列进行-和"><span class="nav-number">1.5.</span> <span class="nav-text">2.5 对序列进行+和*</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-序列的增量赋值"><span class="nav-number">1.6.</span> <span class="nav-text">2.6 序列的增量赋值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-7-list-sort方法和内置函数sorted"><span class="nav-number">1.7.</span> <span class="nav-text">2.7 list.sort方法和内置函数sorted</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-8-用bisect来管理已排序的序列。"><span class="nav-number">1.8.</span> <span class="nav-text">2.8 用bisect来管理已排序的序列。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用bisect来搜索"><span class="nav-number">1.8.1.</span> <span class="nav-text">用bisect来搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用bisect-insort插入新元素"><span class="nav-number">1.8.2.</span> <span class="nav-text">用bisect.insort插入新元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-9-数组"><span class="nav-number">1.9.</span> <span class="nav-text">2.9 数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存视图"><span class="nav-number">1.9.1.</span> <span class="nav-text">内存视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双向队列和其他形式的队列"><span class="nav-number">1.9.2.</span> <span class="nav-text">双向队列和其他形式的队列</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Chap-3-字典和集合"><span class="nav-number">2.</span> <span class="nav-text">Chap 3 字典和集合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-泛映射类型"><span class="nav-number">2.1.</span> <span class="nav-text">3.1 泛映射类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可散列的数据类型"><span class="nav-number">2.1.1.</span> <span class="nav-text">可散列的数据类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-字典推导"><span class="nav-number">2.2.</span> <span class="nav-text">3.2 字典推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-常见的映射方法"><span class="nav-number">2.3.</span> <span class="nav-text">3.3 常见的映射方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用setdefault处理找不到的键"><span class="nav-number">2.3.1.</span> <span class="nav-text">用setdefault处理找不到的键</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-映射的弹性键查询"><span class="nav-number">2.4.</span> <span class="nav-text">3.4 映射的弹性键查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defaultdict"><span class="nav-number">2.4.1.</span> <span class="nav-text">defaultdict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊方法missing"><span class="nav-number">2.4.2.</span> <span class="nav-text">特殊方法missing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-字典的变种"><span class="nav-number">2.5.</span> <span class="nav-text">3.5 字典的变种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-子类化UserDict"><span class="nav-number">2.6.</span> <span class="nav-text">3.6 子类化UserDict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-7-不可变映射类型"><span class="nav-number">2.7.</span> <span class="nav-text">3.7 不可变映射类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-8-集合论"><span class="nav-number">2.8.</span> <span class="nav-text">3.8 集合论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集合字面量"><span class="nav-number">2.8.1.</span> <span class="nav-text">集合字面量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合推导"><span class="nav-number">2.8.2.</span> <span class="nav-text">集合推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合的操作"><span class="nav-number">2.8.3.</span> <span class="nav-text">集合的操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-9-dict和set的背后"><span class="nav-number">2.9.</span> <span class="nav-text">3.9 dict和set的背后</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字典中的散列表"><span class="nav-number">2.9.1.</span> <span class="nav-text">字典中的散列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dict的实现及其导致的结果"><span class="nav-number">2.9.2.</span> <span class="nav-text">dict的实现及其导致的结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set的实现以及导致的结果"><span class="nav-number">2.9.3.</span> <span class="nav-text">set的实现以及导致的结果</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun Fuling</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: 'Fluent Python 读书笔记 (1)', 
+            owner: 'soundquiet',
+            repo: 'soundquiet.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '262a84fa3d903d2933b70fe9fa90a5db8ed57333',
+            
+                client_id: 'b604845ecbd0c13cb82d'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

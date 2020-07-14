@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="data visualization,d3.js,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Soundquiet" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="这一节介绍了一些D3的入门知识，比较琐碎，重点还是D3的练习还有第一二节的问答题">
+<meta name="keywords" content="data visualization,d3.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Visualization and D3.js 笔记(2)">
+<meta property="og:url" content="https://soundquiet.github.io/2018/09/29/Data-Visualization-and-D3-js-笔记-2/index.html">
+<meta property="og:site_name" content="Soundquiet">
+<meta property="og:description" content="这一节介绍了一些D3的入门知识，比较琐碎，重点还是D3的练习还有第一二节的问答题">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson2/scale.png">
+<meta property="og:updated_time" content="2018-09-29T08:48:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Data Visualization and D3.js 笔记(2)">
+<meta name="twitter:description" content="这一节介绍了一些D3的入门知识，比较琐碎，重点还是D3的练习还有第一二节的问答题">
+<meta name="twitter:image" content="https://soundquiet.github.io/images/blogs/dv&d3/lesson2/scale.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://soundquiet.github.io/2018/09/29/Data-Visualization-and-D3-js-笔记-2/">
+
+
+
+
+
+  <title>Data Visualization and D3.js 笔记(2) | Soundquiet</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d9df1d344a31f6d468cc97c7697df391";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Soundquiet</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Life with studying, coding and ciuji</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://soundquiet.github.io/2018/09/29/Data-Visualization-and-D3-js-笔记-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sun Fuling">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/sfl.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Soundquiet">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Data Visualization and D3.js 笔记(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-29T16:37:24+08:00">
+                2018-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Data-Visualization-and-D3-js/" itemprop="url" rel="index">
+                    <span itemprop="name">Data Visualization and D3.js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/29/Data-Visualization-and-D3-js-笔记-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/09/29/Data-Visualization-and-D3-js-笔记-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一节介绍了一些D3的入门知识，比较琐碎，重点还是D3的练习<br>还有第一二节的问答题 </p>
+<a id="more"></a>
+<h1 id="Lesson-2-可视化和D3基础知识"><a href="#Lesson-2-可视化和D3基础知识" class="headerlink" title="Lesson 2 可视化和D3基础知识"></a>Lesson 2 可视化和D3基础知识</h1><h2 id="D3-新版本"><a href="#D3-新版本" class="headerlink" title="D3 新版本"></a>D3 新版本</h2><p>D3 v4中的每个符号都共享一个<strong>平面名称空间</strong>，而不像v3中是嵌套的。</p>
+<table>
+<thead>
+<tr>
+<th>v3</th>
+<th>v4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>d3.scale.linear</td>
+<td>d3.scaleLinear</td>
+</tr>
+<tr>
+<td>d3.layout.treemap</td>
+<td>d3.treemap</td>
+</tr>
+</tbody>
+</table>
+<h2 id="加载D3"><a href="#加载D3" class="headerlink" title="加载D3"></a>加载D3</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"&lt;d3.v3.min.js的地址&gt;"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="js文件的最小化和丑化"><a href="#js文件的最小化和丑化" class="headerlink" title="js文件的最小化和丑化"></a>js文件的最小化和丑化</h3><p><strong>最小化 Minify</strong> 去掉不必要的格式符、空白符等<br><strong>丑化 Uglify</strong> 缩短变量名称</p>
+<p><strong>Often times the D3 script is aloso surfing a content delivery network (CDN) and this just gives you quick access to the script, so that way your client can download it and make it available for the application.</strong></p>
+<h2 id="D3-入门"><a href="#D3-入门" class="headerlink" title="D3 入门"></a>D3 入门</h2><h3 id="文档选择器"><a href="#文档选择器" class="headerlink" title="文档选择器"></a>文档选择器</h3><ul>
+<li>JavaScript<br>document.getElementById/ByName…()<br>jQuery可以让选择DOM节点十分容易<br>返回DOM元素</li>
+<li>CSS选择器<br>document.querySelector(‘.类名’)<br>返回文档中匹配指定 CSS 选择器的一个元素<br>返回DOM元素</li>
+<li>D3选择器<br>返回D3数组对象，可进行D3操作</li>
+</ul>
+<h3 id="类选择注意点"><a href="#类选择注意点" class="headerlink" title="类选择注意点"></a>类选择注意点</h3><ol>
+<li>类名在一个页面上是不唯一的，而id是唯一的</li>
+<li><p><strong>并列选择</strong>，可以选择同时具有某些类名的元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">svg</span> <span class="attr">class</span>=<span class="string">"classA classB"</span>&gt;</span> <span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line"></span><br><span class="line">d3.select(".classA.classB")</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>嵌套选择</strong>，当目标元素没有类名、id时，可以通过选择父级元素间接选择，以空格隔开</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">"hi"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"..."</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line">d3.select("#hi img"). ...</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="D3链语法"><a href="#D3链语法" class="headerlink" title="D3链语法"></a>D3链语法</h3><p>D3 finds and returns a selection and then pass it to the next function.    </p>
+<p>使用D3可以添加、删除和改变DOM节点</p>
+<h3 id="Scale"><a href="#Scale" class="headerlink" title="Scale"></a>Scale</h3><p><img src="/images/blogs/dv&amp;d3/lesson2/scale.png" alt></p>
+<p>d3.scale.linear().domain([15, 90]).range([250, 0])</p>
+<p><strong>注意</strong> 用图形来表示数值比较时，注意半径问题——圆性呈现的是所提供数值（半径）的平方级比较，要确保数据的真实性</p>
+<h3 id="制作一个柱状图"><a href="#制作一个柱状图" class="headerlink" title="制作一个柱状图"></a>制作一个柱状图</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://d3js.org/d3.v3.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">.chart rect &#123;</span><br><span class="line">  fill: steelblue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.chart text &#123;</span><br><span class="line">  fill: white;</span><br><span class="line">  font: 10px sans-serif;</span><br><span class="line">  text-anchor: end;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">function draw(data) &#123;</span><br><span class="line">  var width = 420,</span><br><span class="line">  barHeight = 20;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  // x变量的定义是range方法的调用，但是返回的是比例对象</span><br><span class="line">  // x是个比例，而不是范围。</span><br><span class="line">  var x = d3.scale.linear()</span><br><span class="line">    .range([0, width]);</span><br><span class="line"></span><br><span class="line">  var chart = d3.select(".chart")</span><br><span class="line">      .attr("width", width);</span><br><span class="line"></span><br><span class="line">  // x.domain无需赋值给新的变量，因为domain和range会改变比例对象的内部状态</span><br><span class="line">  // d3.max(array[,accessor])返回给定数组array中自然排序最大的值。非数字排序，即"20"&lt;"3"</span><br><span class="line">  // 如果制定了accessor参数，等同于计算最大值之前调用了array.map(accessor)方法，而非内置的Math.max</span><br><span class="line">  x.domain([0, d3.max(data, function(d) &#123; return d.value; &#125;)]);</span><br><span class="line"></span><br><span class="line">  chart.attr("height", barHeight * data.length);</span><br><span class="line"></span><br><span class="line">  var bar = chart.selectAll("g") // find every gourp tag</span><br><span class="line">      .data(data)</span><br><span class="line">      .enter() // 传回data调用的子集，代表的是页面上还没有放置的每个数据</span><br><span class="line">      .append("g")//为enter选择的每个点在图标上加入一个g元素</span><br><span class="line">      .attr("transform", function(d, i) &#123; return "translate(0," + i * barHeight + ")"; &#125;);</span><br><span class="line">  //此时的bar是一群g标签，仍非矩形</span><br><span class="line"></span><br><span class="line">  // add a rectangle for every data point</span><br><span class="line">  bar.append("rect") </span><br><span class="line">      .attr("width", function(d) &#123; return x(d.value); &#125;)</span><br><span class="line">      .attr("height", barHeight - 1);</span><br><span class="line"></span><br><span class="line">  bar.append("text")</span><br><span class="line">      .attr("x", function(d) &#123; return x(d.value) - 3; &#125;)</span><br><span class="line">      .attr("y", barHeight / 2)</span><br><span class="line">      .attr("dy", ".35em")</span><br><span class="line">      .text(function(d) &#123; return d.value; &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">svg</span> <span class="attr">class</span>=<span class="string">"chart"</span>&gt;</span><span class="tag">&lt;/<span class="name">svg</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  function type(d) &#123;</span><br><span class="line">    d.value = +d.value; // coerce to number</span><br><span class="line">    return d;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  d3.tsv("data.tsv", type, draw);</span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="阅读list"><a href="#阅读list" class="headerlink" title="阅读list"></a>阅读list</h2><ul>
+<li><a href="https://bost.ocks.org/mike/bar/" target="_blank" rel="noopener">Let’s Make a Bar Chart</a>   </li>
+<li>d3文档</li>
+</ul>
+<h1 id="Lesson-3-Exercise-for-Lesson-1-amp-2"><a href="#Lesson-3-Exercise-for-Lesson-1-amp-2" class="headerlink" title="Lesson 3 Exercise for Lesson 1 &amp; 2"></a>Lesson 3 Exercise for Lesson 1 &amp; 2</h1><p>Summary statistics can hide patterns and outliers in data sets which is why exploratory plots are helpful for “seeing” data.  —- True  </p>
+<blockquote>
+<p>Anscombe’s Quartet shows why this is so import</p>
+</blockquote>
+<hr>
+<p>How does data visualization take advantage of human perception?</p>
+<ol>
+<li>Humans can process visual information in parallel (all at once) as opposed to taking in information serially, like when reading text word by word.</li>
+<li>Human eye is excellent at indentifying differences in placement &amp; color</li>
+</ol>
+<p>[x] Visual encodings are chosen to be flashy and to grab the reader’s attention.<br>That’s <strong>wrong</strong> because the decision to pick up visual encodings shoule not be rely on being eye-catching.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/data-visualization/" rel="tag"># data visualization</a>
+          
+            <a href="/tags/d3-js/" rel="tag"># d3.js</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/29/Fluent-Python-读书笔记-2/" rel="next" title="Fluent Python 读书笔记(2)">
+                <i class="fa fa-chevron-left"></i> Fluent Python 读书笔记(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/Data-Visualization-and-D3-js-笔记-3/" rel="prev" title="Data Visualization and D3.js 笔记(3)">
+                Data Visualization and D3.js 笔记(3) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/sfl.jpg" alt="Sun Fuling">
+            
+              <p class="site-author-name" itemprop="name">Sun Fuling</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Friends
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://ciuji.me/" title="ciuji" target="_blank">ciuji</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://lianqing11.github.io/" title="LianQing" target="_blank">LianQing</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lesson-2-可视化和D3基础知识"><span class="nav-number">1.</span> <span class="nav-text">Lesson 2 可视化和D3基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#D3-新版本"><span class="nav-number">1.1.</span> <span class="nav-text">D3 新版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加载D3"><span class="nav-number">1.2.</span> <span class="nav-text">加载D3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#js文件的最小化和丑化"><span class="nav-number">1.2.1.</span> <span class="nav-text">js文件的最小化和丑化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D3-入门"><span class="nav-number">1.3.</span> <span class="nav-text">D3 入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文档选择器"><span class="nav-number">1.3.1.</span> <span class="nav-text">文档选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类选择注意点"><span class="nav-number">1.3.2.</span> <span class="nav-text">类选择注意点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#D3链语法"><span class="nav-number">1.3.3.</span> <span class="nav-text">D3链语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scale"><span class="nav-number">1.3.4.</span> <span class="nav-text">Scale</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制作一个柱状图"><span class="nav-number">1.3.5.</span> <span class="nav-text">制作一个柱状图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阅读list"><span class="nav-number">1.4.</span> <span class="nav-text">阅读list</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lesson-3-Exercise-for-Lesson-1-amp-2"><span class="nav-number">2.</span> <span class="nav-text">Lesson 3 Exercise for Lesson 1 &amp; 2</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sun Fuling</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: 'Data Visualization and D3.js 笔记(2)', 
+            owner: 'soundquiet',
+            repo: 'soundquiet.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '262a84fa3d903d2933b70fe9fa90a5db8ed57333',
+            
+                client_id: 'b604845ecbd0c13cb82d'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
