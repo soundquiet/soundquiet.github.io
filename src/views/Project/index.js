@@ -35,7 +35,7 @@ class Project extends Component {
              author: "Fuling Sun, Nan Chen, Ying Sun",
              conf: "通过记录手机APP在一天中访问隐私权限的情况，我们利用可视化与scrollytelling讲述了用户隐私被获取的途径及可能的危害.",
              skill: "JavaScript, CSS, JQuery",
-             img: "./papers/2020VIS-Calliope.png",
+             img: "./papers/2019Viscourse.png",
              file: "https://soundquiet.github.io/hollow_man/"
             } 
             
