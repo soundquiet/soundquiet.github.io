@@ -1,0 +1,46 @@
+.home {
+    /* width: 80%; */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 46em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    line-height: 1.8;
+    font-family: "Open Sans","Helvetica Neue","Helvetica","Roboto","Arial",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #333;
+    text-align: justify;
+}
+
+.post-title{
+    font-family: "Montserrat",sans-serif;
+    margin: 0 0 1rem;
+}
+
+.home-avatar {
+    width: 140px !important;
+    height: 140px;
+    border-radius: 70px;
+}
+
+.post-header {
+    padding: 0.5em 1em 1em 1em;
+    text-align: center;
+    color: #333;
+}
+
+.post-intro {
+    color: #757471;
+    font-size: 12px;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    margin: 0 0 1rem;
+}
+
+.links {
+    color: #75bab4;
+    text-decoration: none;
+}
+

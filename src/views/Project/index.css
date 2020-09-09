@@ -1,0 +1,13 @@
+.project {
+    max-width: 46em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    line-height: 1.8;
+}
+
+.project h2 {
+    font-family: "Montserrat",sans-serif;
+    color: #333;
+    text-transform: uppercase;
+}

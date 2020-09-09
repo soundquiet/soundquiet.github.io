@@ -1,0 +1,22 @@
+.nav-item{
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 1.25em 15px;
+    font-family: "OpenSans-Blod","Helvetica Neue","Helvetica","Roboto","Arial",sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 1.8;
+
+}
+
+.row {
+    box-shadow: 0 2px dimgrey;
+}
+
+.nav-item a {
+    display: inline-block;
+    color: #999;
+    text-decoration: none;
+}
+
