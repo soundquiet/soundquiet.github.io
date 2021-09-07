@@ -10,17 +10,29 @@ class Project extends Component {
 
 	render(){
         let publications = [
+            {title: "VizLinter: A Linter and Fixer Framework for Data Visualization",
+             author: "Qing Chen, Fuling Sun, Xinyue Xu, Zui Chen, Jiazhe Wang, Nan Cao",
+             conf: "VIS 2021",
+             img: "./papers/2021VIS-VizLinter.jpg",
+             file: ""
+            },
+            {title: "Vinci: An Intelligent Graphic Design System forGenerating Advertising Posters",
+             author: "Shunan Guo, Zhuochen Jin, Fuling Sun, Jingwen Li, Zhaorui Li, Yang Shi, Nan Cao",
+             conf: "CHI 2021",
+             img: "./papers/2021CHI-Vinci.jpg",
+             file: "https://idvxlab.com/papers/2021CHI_Vinci_Guo.pdf"
+            },
+            {title: "AutoClips: An Automatic Approach to Video Generation from Data Facts",
+             author: "Danqing Shi, Fuling Sun, Xinyue Xu, Xingyu Lan, David Gotz, Nan Cao",
+             conf: "EuroVis 2021",
+             img: "./papers/2021EuroVis-AutoClips.jpg",
+             file: "https://sdq.github.io/autoclips/autoclips.pdf"
+            },
             {title: "Calliope: Automatic Visual Data Story Generation from a Spreadsheet",
              author: "Danqing Shi, Xinyue Xu, Fuling Sun, Yang Shi, Nan Cao",
-             conf: "TVCG 2020",
+             conf: "VIS 2020",
              img: "./papers/2020VIS-Calliope.png",
-             file: ""
-            }, 
-            {title: "My first work in research",
-             author: "me and others",
-             conf: "hope",
-             img: "",
-             file: ""
+             file: "https://idvxlab.com/papers/2020TVCG_Calliope_Shi.pdf"
             }
         ]
         let projects = [

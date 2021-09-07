@@ -29,9 +29,9 @@ class Home extends Component {
                     
                         <br/>
                         <br/>
-                        My research interests are Data Visualization and Human-Computer Interaction, under the supervison of  <a className="links" href="http://nancao.org/" target="_blank" rel="noopener noreferrer">
+                        My research interests are Data Visualization and Human-Computer Interaction, under the supervison of <a className="links" href="http://nancao.org/" target="_blank" rel="noopener noreferrer">
                          Prof. Nan Cao
-                        </a>.
+                        </a> and <a className="links" target="_blank" rel="noopener noreferrer" href="https://tjdi.tongji.edu.cn/TeacherDetail.do?id=5056&lang=en">Prof. Qing Chen</a>.
                         <br/>
                     </div>
 

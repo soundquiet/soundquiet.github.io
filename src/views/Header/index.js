@@ -21,7 +21,7 @@ class Header extends Component {
                         {/* small devices */}
                         <Row end="xs" className="nav-collapse">
                             <Col className="nav-item" onClick={()=>this.changeContent("home")}>Home</Col>
-                            <Col className="nav-item" onClick={()=>this.changeContent("project")}>Project</Col>
+                            <Col className="nav-item" onClick={()=>this.changeContent("project")}>Projects</Col>
                             <Col className="nav-item"><a href="https://soundquiet.github.io/blog" target="_blank" rel="noopener noreferrer">Blog</a></Col>
                         </Row>
                         
