@@ -23,6 +23,7 @@ class Header extends Component {
                             <Col className="nav-item" onClick={()=>this.changeContent("home")}>Home</Col>
                             <Col className="nav-item" onClick={()=>this.changeContent("project")}>Projects</Col>
                             <Col className="nav-item"><a href="https://soundquiet.github.io/blog" target="_blank" rel="noopener noreferrer">Blog</a></Col>
+                            <Col className="nav-item"><a href="./cv.pdf" target="_blank" rel="noopener noreferrer">CV</a></Col>
                         </Row>
                         
                     </Col>
