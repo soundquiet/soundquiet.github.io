@@ -14,7 +14,7 @@ class Project extends Component {
              author: "Qing Chen, Fuling Sun, Xinyue Xu, Zui Chen, Jiazhe Wang, Nan Cao",
              conf: "VIS 2021",
              img: "./papers/2021VIS-VizLinter.jpg",
-             file: ""
+             file: "https://arxiv.org/pdf/2108.10299.pdf"
             },
             {title: "Vinci: An Intelligent Graphic Design System forGenerating Advertising Posters",
              author: "Shunan Guo, Zhuochen Jin, Fuling Sun, Jingwen Li, Zhaorui Li, Yang Shi, Nan Cao",
@@ -43,7 +43,7 @@ class Project extends Component {
              img: "./papers/ecosystem.png",
              file: "https://soundquiet.github.io/Ecosystem-Simulator/"
             },
-            {title: "科技发展70迈，我们在裸奔",
+            {title: "[data journalism] 科技发展70迈，我们在裸奔",
              author: "Fuling Sun, Nan Chen, Ying Sun",
              conf: "通过记录手机APP在一天中访问隐私权限的情况，我们利用可视化与scrollytelling讲述了用户隐私被获取的途径及可能的危害.",
              skill: "JavaScript, CSS, JQuery",

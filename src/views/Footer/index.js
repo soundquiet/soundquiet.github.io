@@ -17,7 +17,7 @@ class Footer extends Component {
 
                 <div className="wrapper">
                 <div className="site site-navigation" target="_blank">
-                    <p><a href="mailto:fulingsun.idvx@gmail.com"><i className="fa fa-envelope" aria-hidden="true"></i>E-mail</a></p>
+                    <p><a href="mailto:fulingsun515@gmail.com"><i className="fa fa-envelope" aria-hidden="true"></i>E-mail</a></p>
                 </div>
 
                 <div className="site site-contact" target="_blank">
